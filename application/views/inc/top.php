@@ -1,3 +1,6 @@
+<?php
+$pageName = basename($_SERVER["PHP_SELF"], '.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
