@@ -102,7 +102,5 @@
   <script src="<?php echo base_url('assets/js/material.js'); ?>"></script>
   <script src="<?php echo base_url('assets/js/misc.js'); ?>"></script>
   <!-- endinject -->
-  <!-- Custom js for this page-->
-  <!-- End custom js for this page-->
 </body>
 </html>

@@ -14,31 +14,31 @@
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-          <a class="mdc-drawer-link" href="<?php echo base_url('doctor.php') ?>">
+        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'doctor' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('doctor') ?>">
             <i class="fas fa-stethoscope pr-3"></i>
             Doctors
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-          <a class="mdc-drawer-link" href="pages/forms/basic-forms.html">
+        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'index' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('index') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">group</i>
             Staff
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-          <a class="mdc-drawer-link" href="pages/forms/basic-forms.html">
+        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'index' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('index') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">person</i>
             Patients
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-          <a class="mdc-drawer-link" href="pages/forms/basic-forms.html">
+        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'index' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('index') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">local_hospital</i>
             Laboratary
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-          <a class="mdc-drawer-link" href="pages/forms/basic-forms.html">
+        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'index' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('index') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
             Patients
           </a>
