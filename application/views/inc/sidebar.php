@@ -8,39 +8,39 @@
     <div class="mdc-list-group">
       <nav class="mdc-list mdc-drawer-menu">
         <div class="mdc-list-item mdc-drawer-item">
-          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'index' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('index') ?>">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'index' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('dashboard') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">home</i>
             Dashboard
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'doctor' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('doctor') ?>">
+        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'doctors' ) ? 'active' : '' ?>" href="<?php echo base_url('doctors') ?>">
             <i class="fas fa-stethoscope pr-3"></i>
             Doctors
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'index' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('index') ?>">
+        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'staff' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('staff') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">group</i>
             Staff
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'index' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('index') ?>">
+        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'patients' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('patients') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">person</i>
             Patients
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'index' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('index') ?>">
-            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">local_hospital</i>
-            Laboratary
+        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'appointments' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('appointments') ?>">
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
+            Appointments
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'index' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('index') ?>">
-            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
-            Patients
+        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'laboratray' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('laboratray') ?>">
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">local_hospital</i>
+            Laboratary
           </a>
         </div>
       </nav>
