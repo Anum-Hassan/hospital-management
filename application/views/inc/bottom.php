@@ -13,3 +13,19 @@
   <!-- Custom js for this page-->
   <script src="<?php echo base_url('assets/js/dashboard.js'); ?>"></script>
   <!-- End custom js for this page-->
+   
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('#myTable').DataTable({
+      paging: true,
+      searching: true,
+      info: true,
+      lengthMenu: [5, 10, 25, 50]
+    });
+  });
+
+</script>

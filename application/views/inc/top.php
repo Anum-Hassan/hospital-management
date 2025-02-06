@@ -26,5 +26,6 @@ $pageName = basename($_SERVER["PHP_SELF"], '.php');
   <!-- Layout styles -->
   <link rel="stylesheet" href="<?php echo base_url('assets/css/demo/style.css'); ?>">
   <!-- End layout styles -->
-
+<!-- DataTables Bootstrap CSS -->
+<link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 </head>

@@ -8,13 +8,13 @@
     <div class="mdc-list-group">
       <nav class="mdc-list mdc-drawer-menu">
         <div class="mdc-list-item mdc-drawer-item">
-          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'index' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('dashboard') ?>">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'index') ? 'active' : '' ?>" href="<?php echo base_url('dashboard') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">home</i>
             Dashboard
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'doctors' ) ? 'active' : '' ?>" href="<?php echo base_url('doctors') ?>">
+        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'doctors' || $this->uri->segment(1) == 'manage-doctors') ? 'active' : '' ?>" href="<?php echo base_url('doctors') ?>">
             <i class="fas fa-stethoscope pr-3"></i>
             Doctors
           </a>
