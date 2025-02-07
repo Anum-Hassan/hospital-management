@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,94 +14,159 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/css/demo/style.css'); ?>">
   <!-- End layout styles -->
   <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon.png'); ?>" />
+
+ <style>
+  /* Ensure everything is aligned correctly */
+  .mdc-layout-grid__cell {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mdc-text-field {
+    width: 100%;
+  }
+
+  .custom-file-upload {
+    margin-top: 10px;
+    display: block; /* Ensures the button is below the input */
+  }
+
+  .btn-upload {
+    display: inline-block;
+    background-color: #6200ea;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .file-input {
+    display: none;
+  }
+
+  #imagePreview {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  #imagePreviewImg {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+</style>
 </head>
+
 <body>
-<script src="<?php echo base_url('assets/js/preloader.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/js/preloader.js'); ?>"></script>
   <div class="body-wrapper">
-    <div class="main-wrapper">
-      <div class="page-wrapper full-page-wrapper d-flex align-items-center justify-content-center">
-        <main class="auth-page">
-          <div class="mdc-layout-grid">
-            <div class="mdc-layout-grid__inner">
-              <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"></div>
-              <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-6-tablet">
-                <div class="mdc-card">
-                  <form>
-                    <div class="mdc-layout-grid">
-                      <div class="mdc-layout-grid__inner">
-                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
-                          <div class="mdc-text-field w-100">
-                            <input class="mdc-text-field__input" id="text-field-hero-input">
-                            <div class="mdc-line-ripple"></div>
-                            <label for="text-field-hero-input" class="mdc-floating-label">Username</label>
-                          </div>
-                        </div>
-                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
-                          <div class="mdc-text-field w-100">
-                            <input class="mdc-text-field__input" id="text-field-hero-input">
-                            <div class="mdc-line-ripple"></div>
-                            <label for="text-field-hero-input" class="mdc-floating-label">Username</label>
-                          </div>
-                        </div>
-                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-                          <div class="mdc-text-field w-100">
-                            <input class="mdc-text-field__input" id="text-field-hero-input">
-                            <div class="mdc-line-ripple"></div>
-                            <label for="text-field-hero-input" class="mdc-floating-label">Username</label>
-                          </div>
-                        </div>
-                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-                          <div class="mdc-text-field w-100">
-                            <input class="mdc-text-field__input" type="password" id="text-field-hero-input">
-                            <div class="mdc-line-ripple"></div>
-                            <label for="text-field-hero-input" class="mdc-floating-label">Password</label>
-                          </div>
-                        </div>
-                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
-                          <div class="mdc-form-field">
-                            <div class="mdc-checkbox">
-                              <input type="checkbox"
-                                      class="mdc-checkbox__native-control"
-                                      id="checkbox-1"/>
-                              <div class="mdc-checkbox__background">
-                                <svg class="mdc-checkbox__checkmark"
-                                      viewBox="0 0 24 24">
-                                  <path class="mdc-checkbox__checkmark-path"
-                                        fill="none"
-                                        d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
-                                </svg>
-                                <div class="mdc-checkbox__mixedmark"></div>
-                              </div>
+    <div class="body-wrapper">
+      <div class="main-wrapper">
+        <div class="page-wrapper full-page-wrapper d-flex align-items-center justify-content-center">
+          <main class="auth-page">
+            <div class="mdc-layout-grid">
+              <div class="mdc-layout-grid__inner">
+                <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"></div>
+                <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-6-tablet">
+                  <div class="mdc-card">
+                  <?php if ($this->session->flashdata('success')): ?>
+            <div class="alert alert-success"><?= $this->session->flashdata('success'); ?></div>
+        <?php elseif ($this->session->flashdata('error')): ?>
+            <div class="alert alert-danger"><?= $this->session->flashdata('error'); ?></div>
+        <?php endif; ?>
+
+        <?= validation_errors('<div class="alert alert-danger">', '</div>'); ?>
+        <form action="<?= base_url('hospital/register'); ?>" method="post" enctype="multipart/form-data">
+                      <div class="mdc-layout-grid">
+                        <div class="mdc-layout-grid__inner">
+                          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+                            <div class="mdc-text-field w-100">
+                              <input type="text" name="username" class="mdc-text-field__input" value="<?= set_value('username'); ?>" required>
+                              <div class="mdc-line-ripple"></div>
+                              <label class="mdc-floating-label">Username</label>
                             </div>
-                            <label for="checkbox-1">Remember me</label>
                           </div>
-                        </div>
-                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop d-flex align-items-center justify-content-end">
-                          <a href="#">Forgot Password</a>
-                        </div>
-                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-                          <a href="../../index.html" class="mdc-button mdc-button--raised w-100">
-                            Register
-                          </a>
+                          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+                            <div class="mdc-text-field w-100">
+                              <input type="email" class="mdc-text-field__input" name="email" value="<?= set_value('email'); ?>" required>
+                              <div class="mdc-line-ripple"></div>
+                              <label class="mdc-floating-label">Email</label>
+                            </div>
+                          </div>
+                          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+                            <div class="mdc-text-field w-100">
+                              <input type="password" class="mdc-text-field__input" name="password"  required>
+                              <div class="mdc-line-ripple"></div>
+                              <label class="mdc-floating-label">Password</label>
+                            </div>
+                          </div>
+                          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+                            <div class="mdc-text-field w-100">
+                              <select name="role" class="mdc-text-field__input" required>
+                                <option value="admin">Admin</option>
+                                <option value="doctor">Doctor</option>
+                              </select>
+                              <div class="mdc-line-ripple"></div>
+                            </div>
+                          </div>
+                          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+                            <!-- Profile Image Input Field -->
+                            <div class="mdc-text-field w-100">
+                              <label class="mdc-floating-label">Profile Image</label>
+                              <input type="file" name="image" accept="image/*" id="fileInput" class="file-input" required>
+                              <div class="mdc-line-ripple"></div>
+                            </div>
+
+                            <!-- Custom file upload button below the input -->
+                            <div class="custom-file-upload">
+                              <label for="fileInput" class="btn-upload">
+                                Choose File
+                              </label>
+                            </div>
+
+                            <!-- Image preview section -->
+                            <div id="imagePreview" class="image-preview">
+                              <img src="" alt="Profile Image" id="imagePreviewImg" style="display:none; width: 100px; height: 100px; object-fit: cover;">
+                            </div>
+                          </div>
+
+                          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+                            <button type="submit" class="mdc-button mdc-button--raised w-100">Register</button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </form>
+                      <?= form_close() ?>
+                  </div>
                 </div>
+                <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"></div>
               </div>
-              <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"></div>
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- plugins:js -->
-  <script src="<?php echo base_url('assets/vendors/js/vendor.bundle.base.js'); ?>"></script>
-  <!-- endinject -->
-  <!-- inject:js -->
-  <script src="<?php echo base_url('assets/js/material.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/js/misc.js'); ?>"></script>
-  <!-- endinject -->
+    <script>
+      document.getElementById('fileInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            const imagePreview = document.getElementById('imagePreviewImg');
+            imagePreview.src = event.target.result;
+            imagePreview.style.display = 'block';
+          }
+          reader.readAsDataURL(file);
+        }
+      });
+    </script>
+    <!-- plugins:js -->
+    <script src="<?php echo base_url('assets/vendors/js/vendor.bundle.base.js'); ?>"></script>
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src="<?php echo base_url('assets/js/material.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/misc.js'); ?>"></script>
+    <!-- endinject -->
 </body>
+
 </html>

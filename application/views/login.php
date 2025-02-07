@@ -27,19 +27,26 @@
               <div class="stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"></div>
               <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-6-tablet">
                 <div class="mdc-card">
-                  <form>
+                  <?php if ($this->session->flashdata('success')): ?>
+                    <div class="alert alert-success"><?= $this->session->flashdata('success'); ?></div>
+                  <?php elseif ($this->session->flashdata('error')): ?>
+                    <div class="alert alert-danger"><?= $this->session->flashdata('error'); ?></div>
+                  <?php endif; ?>
+
+                  <?= validation_errors('<div class="alert alert-danger">', '</div>'); ?>
+                  <form action="<?= base_url('hospital/login'); ?>" method="post" enctype="multipart/form-data">
                     <div class="mdc-layout-grid">
                       <div class="mdc-layout-grid__inner">
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
                           <div class="mdc-text-field w-100">
-                            <input class="mdc-text-field__input" id="text-field-hero-input">
+                            <input type="text" name="username" class="mdc-text-field__input" id="text-field-hero-input" value="<?= set_value('username'); ?>" required>
                             <div class="mdc-line-ripple"></div>
                             <label for="text-field-hero-input" class="mdc-floating-label">Username</label>
                           </div>
                         </div>
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
                           <div class="mdc-text-field w-100">
-                            <input class="mdc-text-field__input" type="password" id="text-field-hero-input">
+                            <input class="mdc-text-field__input" type="password" name="password" id="text-field-hero-input">
                             <div class="mdc-line-ripple"></div>
                             <label for="text-field-hero-input" class="mdc-floating-label">Password</label>
                           </div>
@@ -67,13 +74,13 @@
                           <a href="">Forgot Password</a>
                         </div>
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-                          <a href="../../index.html" class="mdc-button mdc-button--raised w-100">
+                          <button type="submit" class="mdc-button mdc-button--raised w-100">
                             Login
-                          </a>
+                          </button>
                         </div>
                       </div>
                     </div>
-                  </form>
+                    <?= form_close() ?>
                 </div>
               </div>
               <div class="stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"></div>
