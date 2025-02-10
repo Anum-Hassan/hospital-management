@@ -51,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'Hospital/login';
 $route['dashboard'] = 'hospital/dashboard';
+$route['register'] = 'hospital/register';
 $route['doctors'] = 'hospital/doctors';
 $route['manage-doctors'] = 'hospital/addDoctor';
 $route['404_override'] = '';

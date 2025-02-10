@@ -25,7 +25,7 @@ class Hospital extends CI_Controller
             // Image Upload Configuration
             $config['upload_path']   = './uploads/';
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['max_size']      = 2048; // 2MB
+            $config['max_size']      = 2048;
             $config['file_name']     = time() . '_' . $_FILES["image"]["name"];
 
             $this->load->library('upload', $config);
@@ -33,12 +33,11 @@ class Hospital extends CI_Controller
             if (!$this->upload->do_upload('image')) {
                 $error = $this->upload->display_errors();
                 $this->session->set_flashdata('error', $error);
-                redirect('hospital/register');
+                redirect('register');
             } else {
                 $uploadData = $this->upload->data();
                 $imagePath = 'uploads/' . $uploadData['file_name'];
 
-                // User Data
                 $userData = array(
                     'username' => $this->input->post('username'),
                     'email'    => $this->input->post('email'),
@@ -47,14 +46,14 @@ class Hospital extends CI_Controller
                     'image'    => $imagePath
                 );
 
-                $insert = $this->Hospital_Model->register_user($userData);
+                $insert = $this->Hospital_Model->insert_admin($userData);
 
                 if ($insert) {
                     $this->session->set_flashdata('success', 'User Registered Successfully!');
-                    redirect('hospital/register');
+                    redirect('register');
                 } else {
                     $this->session->set_flashdata('error', 'User Registration Failed!');
-                    redirect('hospital/register');
+                    redirect('register');
                 }
             }
         }
@@ -82,26 +81,21 @@ class Hospital extends CI_Controller
     {
         // Agar already login hai to dashboard pe redirect ho jaye
         if ($this->session->userdata('admin_logged_in')) {
-            redirect('hospital/dashboard');
+            redirect('dashboard');
         }
 
-        // **Step 1: Form Validation Rules**
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            // **Agar validation fail ho jaye to login page dikhaye**
             $this->load->view('login');
         } else {
-            // **Step 2: Form Data Get Karna**
             $username = $this->input->post('username');
             $password = $this->input->post('password');
 
-            // **Step 3: Model Function Call Karna**
             $admin = $this->Hospital_Model->check_admin_login($username, $password);
 
             if ($admin) {
-                // **Step 4: Session Set Karna**
                 $admin_data = [
                     'admin_id' => $admin->id,
                     'username' => $admin->username,
@@ -111,13 +105,11 @@ class Hospital extends CI_Controller
                 ];
                 $this->session->set_userdata($admin_data);
 
-                // **Success Message & Redirect to Dashboard**
                 $this->session->set_flashdata('success', 'Login successful! Welcome, ' . $admin->username);
-                redirect('hospital/dashboard');
+                redirect('dashboard');
             } else {
-                // **Agar password wrong ho to error show kare**
                 $this->session->set_flashdata('error', 'Invalid username or password.');
-                redirect('hospital/login');
+                redirect($route['default_controller']);
             }
         }
     }
@@ -125,7 +117,7 @@ class Hospital extends CI_Controller
     public function dashboard()
     {
         if (!$this->session->userdata('admin_logged_in')) {
-            redirect('hospital/login'); // If not logged in, redirect to login
+            redirect($route['default_controller']); // If not logged in, redirect to login
         }
 
         $this->load->view('index'); // Dashboard Page Load Karega
