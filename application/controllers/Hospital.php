@@ -59,24 +59,6 @@ class Hospital extends CI_Controller
         }
     }
 
-    private function _upload_image()
-    {
-        if (!empty($_FILES['image']['name'])) {
-            $config['upload_path'] = './uploads/profile_images/';
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['max_size'] = 2048;
-            $config['file_name'] = time() . '_' . $_FILES['image']['name'];
-
-            $this->load->library('upload', $config);
-            if ($this->upload->do_upload('image')) {
-                return $this->upload->data('file_name');
-            } else {
-                return null;
-            }
-        }
-        return null;
-    }
-
     public function login()
     {
         // Agar already login hai to dashboard pe redirect ho jaye
@@ -122,43 +104,137 @@ class Hospital extends CI_Controller
 
         $this->load->view('index'); // Dashboard Page Load Karega
     }
+
     public function doctors()
     {
         $data['doctor_details'] = $this->Hospital_Model->getDoctors();
         $this->load->view('doctors', $data);
     }
+
+    private function uploadImage()
+    {
+        $config['upload_path'] = 'uploads/Doctors/'; // Ensure path has proper directory separator
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['max_size'] = 2048;
+        $config['file_name'] = time() . '_' . $_FILES["image"]["name"];
+
+        // Load upload library
+        $this->load->library('upload', $config);
+
+        // Check if directory exists, create if not
+        if (!is_dir($config['upload_path'])) {
+            mkdir($config['upload_path'], 0755, true);
+        }
+
+        if (!$this->upload->do_upload('image')) {
+            $this->session->set_flashdata('error', 'Image upload failed: ' . $this->upload->display_errors());
+            return false;
+        }
+
+        // Return the path including the filename on successful upload
+        return $config['upload_path'] . $this->upload->data('file_name');
+    }
+
     public function addDoctor()
     {
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
-            $result = $this->Hospital_Model->insertDoctor([
-                'name' => $this->input->post('name'),
-                'image' => $this->input->post('image'),
-                'specialization' => $this->input->post('specialization'),
-                'consultation_fee' => $this->input->post('consultation_fee'),
-                'phone' => $this->input->post('phone'),
-                'address' => $this->input->post('address')
-            ]);
+            $this->form_validation->set_rules('name', 'Doctor Name', 'trim|required');
+            $this->form_validation->set_rules('specialization', 'Specialization', 'trim|required');
+            $this->form_validation->set_rules('consultation_fee', 'Consultation Fee', 'trim|required|numeric');
+            $this->form_validation->set_rules('phone', 'Phone', 'trim|required|numeric');
+            $this->form_validation->set_rules('address', 'Address', 'trim|required');
 
-            if ($result) {
+            if ($this->form_validation->run() == FALSE) {
+                $this->session->set_flashdata('error', validation_errors());
                 redirect('manage-doctors');
             } else {
-                $data['error'] = 'Failed to insert doctor record!';
+                $uploadedImage = $this->uploadImage();
+
+                if (!$uploadedImage && $_FILES['image']['name']) {
+                    $this->session->set_flashdata('error', 'Image upload failed!');
+                    redirect('manage-doctors');
+                }
+
+                $doctorData = [
+                    'name' => $this->input->post('name'),
+                    'image' => $uploadedImage,
+                    'specialization' => $this->input->post('specialization'),
+                    'consultation_fee' => $this->input->post('consultation_fee'),
+                    'phone' => $this->input->post('phone'),
+                    'address' => $this->input->post('address')
+                ];
+
+                if ($this->Hospital_Model->insertDoctor($doctorData)) {
+                    $this->session->set_flashdata('success', 'Doctor added successfully!');
+                    redirect('doctors');
+                } else {
+                    $this->session->set_flashdata('error', 'Failed to add doctor record!');
+                    redirect('manage-doctors');
+                }
+            }
+        } else {
+            $this->load->view('manage-doctors');
+        }
+    }
+
+    public function editDoctor($id)
+    {
+        $data['doctor'] = $this->Hospital_Model->getDoctorById($id);
+
+        if (empty($data['doctor'])) {
+            show_404(); // Handle invalid doctor ID
+        }
+
+        $this->load->view('manage-doctors', $data); // Ensure the view file matches this name
+    }
+
+    public function updateDoctor($id)
+    {
+        $data = [
+            'name' => $this->input->post('name'),
+            'specialization' => $this->input->post('specialization'),
+            'consultation_fee' => $this->input->post('consultation_fee'),
+            'phone' => $this->input->post('phone'),
+            'address' => $this->input->post('address'),
+        ];
+
+        // Handle image upload if a new image is uploaded
+        if (!empty($_FILES['image']['name'])) {
+            $upload_path = $this->uploadImage();
+            if ($upload_path) { // Check if upload was successful
+                $data['image'] = $upload_path;
+            } else {
+                $this->session->set_flashdata('error', 'Image upload failed.');
+                redirect('doctors');
+                return;
             }
         }
 
-        $this->load->view('manage-doctors');
+        if ($this->Hospital_Model->updateDoctor($id, $data)) {
+            $this->session->set_flashdata('success', 'Doctor information updated successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to update doctor information.');
+        }
+
+        redirect('doctors');
     }
 
-    public function patients()
+
+    public function deleteDoctor($id)
     {
+        if (is_numeric($id) && $this->Hospital_Model->deleteDoctor($id)) {
+            $this->session->set_flashdata('delete', 'Doctor record deleted successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to delete doctor.');
+        }
+        redirect('doctors');
+    }
+
+    public function staff(){
+        $this->load->view('staff');
+    }
+    public function patients(){
         $this->load->view('patients');
     }
-    public function appointments()
-    {
-        $this->load->view('appointments');
-    }
-    public function laboratoray()
-    {
-        $this->load->view('laboratoray');
-    }
 }
+

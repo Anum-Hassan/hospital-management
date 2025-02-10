@@ -23,7 +23,7 @@
           <div class="col-lg-12 p-4">
             <div class="card border-0">
               <div class="card-header border-bottom d-flex justify-content-between">
-                <h3 class="h4 mb-0" style="color: #2a1c5a;">Doctors</h3>
+                <h3 class="h4 mb-0" style="color: #2a1c5a;">Patients</h3>
                 <a href="<?php echo base_url('manage-doctors'); ?>" class="btn btn-primary btn-sm">
                   <i class="bi bi-plus"></i> New
                 </a>

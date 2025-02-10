@@ -1,30 +1,32 @@
 <?php
 class Hospital_Model extends CI_Model
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function insert_admin($data) {
+    public function insert_admin($data)
+    {
         return $this->db->insert('admins', $data);
     }
-    public function check_admin_login($username, $password) {
-        // **Database me username check kare**
+    public function check_admin_login($username, $password)
+    {
         $this->db->where('username', $username);
-        $query = $this->db->get('admins'); // Your admins table
+        $query = $this->db->get('admins');
 
         if ($query->num_rows() == 1) {
-            $admin = $query->row(); // Admin ka data fetch kare
+            $admin = $query->row();
 
-            // **Step 1: Hashed Password Check kare**
             if (password_verify($password, $admin->password)) {
-                return $admin; // **Agar password match kare to admin ka data return kare**
+                return $admin;
             }
         }
-        return false; // **Agar password match nahi kare to false return kare**
+        return false;
     }
 
-    public function getDoctors() {
+    public function getDoctors()
+    {
         $query = $this->db->get('doctors');
         if (!$query) {
             log_message('error', 'Database error: ' . $this->db->error()['message']);
@@ -32,15 +34,34 @@ class Hospital_Model extends CI_Model
         }
         return $query->result();
     }
-    
+
     public function insertDoctor($data)
     {
         $query = $this->db->insert('doctors', $data);
-        if($query){
-            return true;
-        }else{
+        if (!$query) {
+            log_message('error', $this->db->last_query());
+            log_message('error', $this->db->error());
             return false;
         }
+        return true;
+    }
+
+    public function getDoctorById($id)
+    {
+        $query = $this->db->get_where('doctors', ['id' => $id]);
+        return $query->row();
+    }
+
+    public function updateDoctor($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('doctors', $data);
+    }
+
+
+    public function deleteDoctor($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->delete('doctors');
     }
 }
-?>
