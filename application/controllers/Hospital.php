@@ -3,15 +3,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Hospital extends CI_Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->model('Hospital_Model');
-        $this->load->library('form_validation'); 
-        $this->load->library('session'); 
-         $this->load->helper('url');
+        $this->load->library('form_validation');
+        $this->load->library('session');
+        $this->load->helper('url');
     }
 
-    public function register() {
+    public function register()
+    {
         $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[3]|max_length[20]');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|is_unique[admins.email]');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]');
@@ -20,25 +22,46 @@ class Hospital extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('register');
         } else {
-            $data = array(
-                'username' => $this->input->post('username'),
-                'email' => $this->input->post('email'),
-                'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
-                'role' => $this->input->post('role'),
-                'image' => $this->_upload_image()
-            );
+            // Image Upload Configuration
+            $config['upload_path']   = './uploads/';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['max_size']      = 2048; // 2MB
+            $config['file_name']     = time() . '_' . $_FILES["image"]["name"];
 
-            if ($this->Hospital_Model->insert_admin($data)) {
-                $this->session->set_flashdata('success', 'Registration successful!');
-                redirect('hospital/login');
-            } else {
-                $this->session->set_flashdata('error', 'Something went wrong. Try again.');
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('image')) {
+                $error = $this->upload->display_errors();
+                $this->session->set_flashdata('error', $error);
                 redirect('hospital/register');
+            } else {
+                $uploadData = $this->upload->data();
+                $imagePath = 'uploads/' . $uploadData['file_name'];
+
+                // User Data
+                $userData = array(
+                    'username' => $this->input->post('username'),
+                    'email'    => $this->input->post('email'),
+                    'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                    'role'     => $this->input->post('role'),
+                    'image'    => $imagePath
+                );
+
+                $insert = $this->Hospital_Model->register_user($userData);
+
+                if ($insert) {
+                    $this->session->set_flashdata('success', 'User Registered Successfully!');
+                    redirect('hospital/register');
+                } else {
+                    $this->session->set_flashdata('error', 'User Registration Failed!');
+                    redirect('hospital/register');
+                }
             }
         }
     }
 
-    private function _upload_image() {
+    private function _upload_image()
+    {
         if (!empty($_FILES['image']['name'])) {
             $config['upload_path'] = './uploads/profile_images/';
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
@@ -55,7 +78,8 @@ class Hospital extends CI_Controller
         return null;
     }
 
-    public function login() {
+    public function login()
+    {
         // Agar already login hai to dashboard pe redirect ho jaye
         if ($this->session->userdata('admin_logged_in')) {
             redirect('hospital/dashboard');
@@ -98,11 +122,12 @@ class Hospital extends CI_Controller
         }
     }
 
-    public function dashboard() {
+    public function dashboard()
+    {
         if (!$this->session->userdata('admin_logged_in')) {
             redirect('hospital/login'); // If not logged in, redirect to login
         }
-        
+
         $this->load->view('index'); // Dashboard Page Load Karega
     }
     public function doctors()

@@ -15,47 +15,48 @@
   <!-- End layout styles -->
   <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon.png'); ?>" />
 
- <style>
-  /* Ensure everything is aligned correctly */
-  .mdc-layout-grid__cell {
-    display: flex;
-    flex-direction: column;
-  }
+  <style>
+    /* Ensure everything is aligned correctly */
+    .mdc-layout-grid__cell {
+      display: flex;
+      flex-direction: column;
+    }
 
-  .mdc-text-field {
-    width: 100%;
-  }
+    .mdc-text-field {
+      width: 100%;
+    }
 
-  .custom-file-upload {
-    margin-top: 10px;
-    display: block; /* Ensures the button is below the input */
-  }
+    .custom-file-upload {
+      margin-top: 10px;
+      display: block;
+      /* Ensures the button is below the input */
+    }
 
-  .btn-upload {
-    display: inline-block;
-    background-color: #6200ea;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-  }
+    .btn-upload {
+      display: inline-block;
+      background-color: #6200ea;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+    }
 
-  .file-input {
-    display: none;
-  }
+    .file-input {
+      display: none;
+    }
 
-  #imagePreview {
-    margin-top: 10px;
-    text-align: center;
-  }
+    #imagePreview {
+      margin-top: 10px;
+      text-align: center;
+    }
 
-  #imagePreviewImg {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-  }
-</style>
+    #imagePreviewImg {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+    }
+  </style>
 </head>
 
 <body>
@@ -69,74 +70,56 @@
               <div class="mdc-layout-grid__inner">
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"></div>
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-6-tablet">
-                  <div class="mdc-card">
-                  <?php if ($this->session->flashdata('success')): ?>
-            <div class="alert alert-success"><?= $this->session->flashdata('success'); ?></div>
-        <?php elseif ($this->session->flashdata('error')): ?>
-            <div class="alert alert-danger"><?= $this->session->flashdata('error'); ?></div>
-        <?php endif; ?>
+                  <div class="container mt-5">
+                    <h2>User Registration</h2>
 
-        <?= validation_errors('<div class="alert alert-danger">', '</div>'); ?>
-        <form action="<?= base_url('hospital/register'); ?>" method="post" enctype="multipart/form-data">
-                      <div class="mdc-layout-grid">
-                        <div class="mdc-layout-grid__inner">
-                          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-                            <div class="mdc-text-field w-100">
-                              <input type="text" name="username" class="mdc-text-field__input" value="<?= set_value('username'); ?>" required>
-                              <div class="mdc-line-ripple"></div>
-                              <label class="mdc-floating-label">Username</label>
-                            </div>
-                          </div>
-                          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-                            <div class="mdc-text-field w-100">
-                              <input type="email" class="mdc-text-field__input" name="email" value="<?= set_value('email'); ?>" required>
-                              <div class="mdc-line-ripple"></div>
-                              <label class="mdc-floating-label">Email</label>
-                            </div>
-                          </div>
-                          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-                            <div class="mdc-text-field w-100">
-                              <input type="password" class="mdc-text-field__input" name="password"  required>
-                              <div class="mdc-line-ripple"></div>
-                              <label class="mdc-floating-label">Password</label>
-                            </div>
-                          </div>
-                          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-                            <div class="mdc-text-field w-100">
-                              <select name="role" class="mdc-text-field__input" required>
-                                <option value="admin">Admin</option>
-                                <option value="doctor">Doctor</option>
-                              </select>
-                              <div class="mdc-line-ripple"></div>
-                            </div>
-                          </div>
-                          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-                            <!-- Profile Image Input Field -->
-                            <div class="mdc-text-field w-100">
-                              <label class="mdc-floating-label">Profile Image</label>
-                              <input type="file" name="image" accept="image/*" id="fileInput" class="file-input" required>
-                              <div class="mdc-line-ripple"></div>
-                            </div>
+                    <?php if ($this->session->flashdata('error')) { ?>
+                      <div class="alert alert-danger"><?php echo $this->session->flashdata('error'); ?></div>
+                    <?php } ?>
 
-                            <!-- Custom file upload button below the input -->
-                            <div class="custom-file-upload">
-                              <label for="fileInput" class="btn-upload">
-                                Choose File
-                              </label>
-                            </div>
+                    <?php if ($this->session->flashdata('success')) { ?>
+                      <div class="alert alert-success"><?php echo $this->session->flashdata('success'); ?></div>
+                    <?php } ?>
 
-                            <!-- Image preview section -->
-                            <div id="imagePreview" class="image-preview">
-                              <img src="" alt="Profile Image" id="imagePreviewImg" style="display:none; width: 100px; height: 100px; object-fit: cover;">
-                            </div>
-                          </div>
+                    <?php echo form_open_multipart('hospital/register'); ?>
 
-                          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-                            <button type="submit" class="mdc-button mdc-button--raised w-100">Register</button>
-                          </div>
-                        </div>
-                      </div>
-                      <?= form_close() ?>
+                    <div class="form-group">
+                      <label>Username</label>
+                      <input type="text" name="username" class="form-control" value="<?php echo set_value('username'); ?>">
+                      <?php echo form_error('username'); ?>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Email</label>
+                      <input type="email" name="email" class="form-control" value="<?php echo set_value('email'); ?>">
+                      <?php echo form_error('email'); ?>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Password</label>
+                      <input type="password" name="password" class="form-control">
+                      <?php echo form_error('password'); ?>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Role</label>
+                      <select name="role" class="form-control">
+                        <option value="admin">Admin</option>
+                        <option value="doctor">Doctor</option>
+                        <option value="staff">Staff</option>
+                      </select>
+                      <?php echo form_error('role'); ?>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Profile Image</label>
+                      <input type="file" name="image" class="form-control">
+                      <?php echo form_error('image'); ?>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Register</button>
+
+                    <?php echo form_close(); ?>
                   </div>
                 </div>
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"></div>
