@@ -1,7 +1,8 @@
 <aside class="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
   <div class="mdc-drawer__header">
     <a href="<?php echo base_url('index.php') ?>" class="brand-logo">
-      <img src="assets/images/logo.svg" alt="logo">
+      <img src="<?php echo base_url('assets/images/logo.svg?v=1'); ?>" alt="logo">
+
     </a>
   </div>
   <div class="mdc-drawer__content">
@@ -14,31 +15,37 @@
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'doctors' || $this->uri->segment(1) == 'manage-doctors') ? 'active' : '' ?>" href="<?php echo base_url('doctors') ?>">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'doctors' || $this->uri->segment(1) == 'manage-doctors') ? 'active' : '' ?>" href="<?php echo base_url('doctors') ?>">
             <i class="fas fa-stethoscope pr-3"></i>
             Doctors
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'staff' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('staff') ?>">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'staff' || $this->uri->segment(1) == 'manage-staff') ? 'active' : '' ?>" href="<?php echo base_url('staff') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">group</i>
             Staff
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'patients' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('patients') ?>">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'patients' || $this->uri->segment(1) == 'manage-patients' || $this->uri->segment(1) == 'manage-medical-history') ? 'active' : '' ?>" href="<?php echo base_url('patients') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">person</i>
             Patients
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'appointments' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('appointments') ?>">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'appointments' || $this->uri->segment(1) == 'manage-appointments') ? 'active' : '' ?>" href="<?php echo base_url('appointments') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
             Appointments
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'laboratray' || $this->router->fetch_class() == $this->config->item('default_controller')) ? 'active' : '' ?>" href="<?php echo base_url('laboratray') ?>">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'departments' || $this->uri->segment(1) == 'manage-departments') ? 'active' : '' ?>" href="<?php echo base_url('departments') ?>">
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
+            Departments
+          </a>
+        </div>
+        <div class="mdc-list-item mdc-drawer-item">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'laboratary' || $this->uri->segment(1) == 'manage-laboratary') ? 'active' : '' ?>" href="<?php echo base_url('laboratary') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">local_hospital</i>
             Laboratary
           </a>

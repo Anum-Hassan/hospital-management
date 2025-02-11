@@ -23,8 +23,8 @@
           <div class="col-lg-12 p-4">
             <div class="card border-0">
               <div class="card-header border-bottom d-flex justify-content-between">
-                <h3 class="h4 mb-0" style="color: #2a1c5a;">Staff</h3>
-                <a href="<?php echo base_url('manage-staff'); ?>" class="btn btn-primary btn-sm">
+                <h3 class="h4 mb-0" style="color: #2a1c5a;">Departments</h3>
+                <a href="<?php echo base_url('manage-departments'); ?>" class="btn btn-primary btn-sm">
                   <i class="bi bi-plus"></i> New
                 </a>
               </div>
@@ -34,37 +34,35 @@
                     <thead class="text-capitalize">
                       <tr>
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Specialization</th>
-                        <th>Consultation Fee</th>
-                        <th>Phone</th>
-                        <th>Availability</th>
-                        <th>Address</th>
+                        <th>Department Name</th>
+                        <th>Description</th>
+                        <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <?php if (!empty($doctor_details)): ?>
+                    <tbody class="text-center">
+                      <?php if (!empty($depart_details)): ?>
                         <?php $serial_number = 1; ?>
-                        <?php foreach ($doctor_details as $doctor): ?>
+                        <?php foreach ($depart_details as $depart): ?>
                           <tr>
                             <td><?php echo $serial_number++; ?></td>
-                            <td >
-                              <img src="<?php echo base_url($doctor->image); ?>" alt="Doctor" class="rounded-circle" width="35px" height="35px" style="float: left;">
-                              <?php echo $doctor->name; ?>
-                            </td>
-                            <td><?php echo $doctor->specialization; ?></td>
-                            <td><?php echo $doctor->consultation_fee; ?></td>
-                            <td><?php echo $doctor->phone; ?></td>
-                            <td><?php echo $doctor->availability; ?></td>
-                            <td><?php echo $doctor->address; ?></td>
                             <td>
-                              <a href="<?php echo base_url('manage-doctors/' . $doctor->id); ?>" class="btn btn-sm btn-outline-primary">
+                              <?php echo $depart->name; ?>
+                            </td>
+                            <td><?php echo $depart->description; ?></td>
+                            <td>
+                              <a href="<?= base_url('hospital/toggle_status/departments/' . $depart->id); ?>"
+                                class="btn btn-sm <?= $depart->status == 1 ? 'btn-outline-success' : 'btn-outline-danger'; ?>">
+                                <?= $depart->status == 1 ? 'Active' : 'Inactive'; ?>
+                              </a>
+                            </td>
+                            <td>
+                              <a href="<?php echo base_url('manage-departments/' . $depart->id); ?>" class="btn btn-sm btn-outline-primary">
                                 <span class="fa-regular fa-pen-to-square"></span>
                               </a>
-                              <a href="<?php echo base_url('Hospital/deleteDoctor/' . $doctor->id); ?>"
+                              <a href="<?php echo base_url('Hospital/deleteRecord/departments/' . $depart->id); ?>"
                                 class="btn btn-sm btn-outline-danger"
-                                onclick="return confirm('Are you sure you want to delete this doctor?');">
+                                onclick="return confirm('Are you sure you want to delete this depart?');">
                                 <span class="fa-solid fa-trash"></span>
                               </a>
 

@@ -10,6 +10,7 @@ class Hospital_Model extends CI_Model
     {
         return $this->db->insert('admins', $data);
     }
+
     public function check_admin_login($username, $password)
     {
         $this->db->where('username', $username);
@@ -24,7 +25,35 @@ class Hospital_Model extends CI_Model
         }
         return false;
     }
+    // Delete Record for all modules
+    public function deleteRecord($table, $id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->delete($table);
+    }
 
+    // Start toggle status for all Modules 
+    public function get_current_status($table, $id)
+    {
+        $this->db->select('status');
+        $this->db->from($table);
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row()->status;
+        }
+        return null;
+    }
+
+    public function update_status($table, $id, $new_status)
+    {
+        $this->db->where('id', $id);
+        $this->db->update($table, ['status' => $new_status]);
+    }
+    // End Toggle Status
+
+    // Start Doctor
     public function getDoctors()
     {
         $query = $this->db->get('doctors');
@@ -57,11 +86,94 @@ class Hospital_Model extends CI_Model
         $this->db->where('id', $id);
         return $this->db->update('doctors', $data);
     }
+    // End Doctor
 
+    // Start Department
+    public function getDeparts()
+    {
+        $query = $this->db->get('departments');
+        if (!$query) {
+            log_message('error', 'Database error: ' . $this->db->error()['message']);
+            return [];
+        }
+        return $query->result();
+    }
 
-    public function deleteDoctor($id)
+    public function insertDepart($data)
+    {
+        $query = $this->db->insert('departments', $data);
+        if (!$query) {
+            log_message('error', $this->db->last_query());
+            log_message('error', $this->db->error());
+            return false;
+        }
+        return true;
+    }
+    public function getDepartById($id)
+    {
+        $query = $this->db->get_where('departments', ['id' => $id]);
+        return $query->row();
+    }
+
+    public function updateDepart($id, $data)
     {
         $this->db->where('id', $id);
-        return $this->db->delete('doctors');
+        return $this->db->update('departments', $data);
     }
+    // End Department
+
+    // Start Patient
+    public function getPatients()
+    {
+        $this->db->select('patients.*, doctors.name as doctor_name, rooms.room_number as room_number, users.name as user_name');
+        $this->db->from('patients');
+        $this->db->join('doctors', 'patients.doctor_id = doctors.id', 'left');
+        $this->db->join('rooms', 'patients.room_id = rooms.id', 'left');
+        $this->db->join('users', 'patients.user_id = users.id', 'left');
+        return $this->db->get()->result();
+    }
+
+    public function getActiveDoctors()
+    {
+        return $this->db->get_where('doctors', ['status' => 1])->result();
+    }
+
+    public function insertPatient($data)
+    {
+        return $this->db->insert('patients', $data);
+    }
+
+    public function getPatientById($id)
+    {
+        return $this->db->get_where('patients', ['id' => $id])->row();
+    }
+
+    public function updatePatient($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('patients', $data);
+    }
+    // End Patient
+
+    // Start Patient History
+    public function getPatientMedicalHistory($patient_id)
+    {
+        $this->db->select('*');
+        $this->db->from('patient_medical_history');
+        $this->db->where('patient_id', $patient_id);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function insertPatientHistory($data)
+    {
+        return $this->db->insert('patient_medical_history', $data);
+    }
+
+    public function deletePatientHistory($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->delete('patient_medical_history');
+    }
+    // End Patient History
 }

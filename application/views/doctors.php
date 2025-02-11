@@ -38,8 +38,8 @@
                         <th>Specialization</th>
                         <th>Consultation Fee</th>
                         <th>Phone</th>
-                        <th>Availability</th>
                         <th>Address</th>
+                        <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -49,20 +49,25 @@
                         <?php foreach ($doctor_details as $doctor): ?>
                           <tr>
                             <td><?php echo $serial_number++; ?></td>
-                            <td >
+                            <td>
                               <img src="<?php echo base_url($doctor->image); ?>" alt="Doctor" class="rounded-circle" width="35px" height="35px" style="float: left;">
                               <?php echo $doctor->name; ?>
                             </td>
                             <td><?php echo $doctor->specialization; ?></td>
                             <td><?php echo $doctor->consultation_fee; ?></td>
                             <td><?php echo $doctor->phone; ?></td>
-                            <td><?php echo $doctor->availability; ?></td>
                             <td><?php echo $doctor->address; ?></td>
+                            <td>
+                              <a href="<?= base_url('hospital/toggle_status/doctors/' . $doctor->id); ?>"
+                                class="btn btn-sm <?= $doctor->status == 1 ? 'btn-outline-success' : 'btn-outline-danger'; ?>">
+                                <?= $doctor->status == 1 ? 'Active' : 'Inactive'; ?>
+                              </a>
+                            </td>
                             <td>
                               <a href="<?php echo base_url('manage-doctors/' . $doctor->id); ?>" class="btn btn-sm btn-outline-primary">
                                 <span class="fa-regular fa-pen-to-square"></span>
                               </a>
-                              <a href="<?php echo base_url('Hospital/deleteDoctor/' . $doctor->id); ?>"
+                              <a href="<?php echo base_url('Hospital/deleteRecord/doctors/' . $doctor->id); ?>"
                                 class="btn btn-sm btn-outline-danger"
                                 onclick="return confirm('Are you sure you want to delete this doctor?');">
                                 <span class="fa-solid fa-trash"></span>

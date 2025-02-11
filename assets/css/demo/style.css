@@ -23163,5 +23163,7 @@ footer .vertical-divider {
 }
 #msg{
   width: 40%;
+  right: 0%;
+  z-index: 10000;
 }
 /*# sourceMappingURL=../maps/demo/style.css.map */

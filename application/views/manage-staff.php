@@ -18,7 +18,7 @@
                 <div class="mdc-layout-grid__cell--span-12">
                   <form class="mdc-card" method="post" action="<?php echo isset($doctor) ? base_url('Hospital/updateDoctor/' . $doctor->id) : base_url('Hospital/addDoctor'); ?>" enctype="multipart/form-data">
                     <h4 class="card-title" style="color: #4b3a6e;">
-                      <?php echo isset($doctor) ? 'Edit Doctor' : 'Add Doctor'; ?>
+                      <?php echo isset($doctor) ? 'Update Staff' : 'Add Staff'; ?>
                     </h4>
                     <div class="template-demo">
                       <div class="mdc-layout-grid__inner">
