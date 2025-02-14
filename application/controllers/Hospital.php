@@ -10,8 +10,24 @@ class Hospital extends CI_Controller
         $this->load->library('form_validation');
         $this->load->library('session');
         $this->load->helper('url');
-    }
 
+        $allowed = ['login', 'register'];
+
+    // Agar requested page "allowed" list me nahi hai to login check karein
+    if (!in_array($this->router->fetch_method(), $allowed)) {
+        $this->is_logged_in();
+      
+    }
+}
+    private function is_logged_in()
+    {
+        if (!$this->session->userdata('admin_logged_in')) {
+            $this->session->set_flashdata('error', 'Please login first.');
+            redirect('hospital/login'); // Login page pe redirect karna
+            exit;
+        }
+    }
+    
     public function register()
     {
         $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[3]|max_length[20]');
@@ -22,7 +38,7 @@ class Hospital extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('register');
         } else {
-            $config['upload_path']   = './uploads/';
+            $config['upload_path']   = './uploads/profile_images';
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
             $config['max_size']      = 2048;
             $config['file_name']     = time() . '_' . $_FILES["image"]["name"];
@@ -35,7 +51,7 @@ class Hospital extends CI_Controller
                 redirect('register');
             } else {
                 $uploadData = $this->upload->data();
-                $imagePath = 'uploads/' . $uploadData['file_name'];
+                $imagePath = 'uploads/profile_images/' . $uploadData['file_name'];
 
                 $userData = array(
                     'username' => $this->input->post('username'),
@@ -48,10 +64,10 @@ class Hospital extends CI_Controller
                 $insert = $this->Hospital_Model->insert_admin($userData);
 
                 if ($insert) {
-                    $this->session->set_flashdata('success', 'User Registered Successfully!');
-                    redirect('register');
+                    $this->session->set_flashdata('success', 'Registered Successfully!');
+                    redirect('login');
                 } else {
-                    $this->session->set_flashdata('error', 'User Registration Failed!');
+                    $this->session->set_flashdata('error', 'Registration Failed!');
                     redirect('register');
                 }
             }
@@ -64,16 +80,16 @@ class Hospital extends CI_Controller
             redirect('dashboard');
         }
 
-        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('login');
         } else {
-            $username = $this->input->post('username');
+            $email = $this->input->post('email');
             $password = $this->input->post('password');
 
-            $admin = $this->Hospital_Model->check_admin_login($username, $password);
+            $admin = $this->Hospital_Model->check_admin_login($email, $password);
 
             if ($admin) {
                 $admin_data = [
@@ -81,6 +97,7 @@ class Hospital extends CI_Controller
                     'username' => $admin->username,
                     'email' => $admin->email,
                     'role' => $admin->role,
+                    'image' => $admin->image,
                     'admin_logged_in' => TRUE
                 ];
                 $this->session->set_userdata($admin_data);
@@ -93,16 +110,38 @@ class Hospital extends CI_Controller
             }
         }
     }
-
+    public function logout() {
+        // Destroy session
+        $this->session->unset_userdata('admin_logged_in');
+        $this->session->unset_userdata('admin_id');
+        $this->session->unset_userdata('username');
+        $this->session->unset_userdata('email');
+        $this->session->unset_userdata('role');
+        
+        // Flash message for logout
+        $this->session->set_flashdata('success', 'You have been logged out successfully.');
+    
+        // Redirect to login page
+        redirect('hospital/login');
+    }
+    
     // Dashboard function
     public function dashboard()
     {
         if (!$this->session->userdata('admin_logged_in')) {
             redirect($route['default_controller']);
         }
-
-        $this->load->view('index');
+    
+        // Get user details from session
+        $user_data = array(
+            'username' => $this->session->userdata('username'),
+            'image'    => $this->session->userdata('image')  // Assuming you've saved 'image' in session
+        );
+    
+        // Pass data to the view
+        $this->load->view('index', $user_data);
     }
+    
 
     // Delete Function for all
     public function deleteRecord($table, $id)
@@ -133,6 +172,7 @@ class Hospital extends CI_Controller
     // Doctor Functions
     public function doctors()
     {
+        $this->is_logged_in();
         $data['doctor_details'] = $this->Hospital_Model->getDoctors();
         $this->load->view('doctors', $data);
     }
@@ -243,6 +283,7 @@ class Hospital extends CI_Controller
     public function depart()
     {
         $data['depart_details'] = $this->Hospital_Model->getDeparts();
+      
         $this->load->view('departments', $data);
     }
 

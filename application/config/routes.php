@@ -52,6 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'Hospital/login';
 $route['dashboard'] = 'hospital/dashboard';
 $route['register'] = 'hospital/register';
+$route['login'] = 'hospital/login';
 $route['doctors'] = 'hospital/doctors';
 $route['staff'] = 'hospital/staff';
 $route['patients'] = 'hospital/patients';

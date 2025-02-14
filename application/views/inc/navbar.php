@@ -2,7 +2,7 @@
         <div class="mdc-top-app-bar__row">
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">menu</button>
-            <span class="mdc-top-app-bar__title">Greetings Clyde!</span>
+            <span class="mdc-top-app-bar__title">Welcome  <?php echo isset($username) ? $username : 'Guest'; ?>!</span>
             <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon search-text-field d-none d-md-flex">
               <i class="material-icons mdc-text-field__icon">search</i>
               <input class="mdc-text-field__input" id="text-field-hero-input">
@@ -20,9 +20,9 @@
               <button class="mdc-button mdc-menu-button">
                 <span class="d-flex align-items-center">
                   <span class="figure">
-                    <img src="assets/images/faces/face1.jpg" alt="user" class="user">
-                  </span>
-                  <span class="user-name">Clyde Miles</span>
+                  <img src="<?php echo isset($image) ? base_url($image) : 'assets/images/default-profile.jpg'; ?>" alt="user" class="user">
+                  <span class="user-name"><?php echo isset($username) ? $username : 'Guest'; ?></span>
+                  
                 </span>
               </button>
               <div class="mdc-menu mdc-menu-surface" tabindex="-1">
@@ -40,38 +40,14 @@
                       <i class="mdi mdi-settings-outline text-primary"></i>                      
                     </div>
                     <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="item-subject font-weight-normal">Logout</h6>
+                    <a href="<?php echo base_url('hospital/logout'); ?>" class="item-subject font-weight-normal">Logout</a>
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
             <div class="divider d-none d-md-block"></div>
-            <div class="menu-button-container d-none d-md-block">
-              <button class="mdc-button mdc-menu-button">
-                <i class="mdi mdi-settings"></i>
-              </button>
-              <div class="mdc-menu mdc-menu-surface" tabindex="-1">
-                <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
-                  <li class="mdc-list-item" role="menuitem">
-                    <div class="item-thumbnail item-thumbnail-icon-only">
-                      <i class="mdi mdi-alert-circle-outline text-primary"></i>
-                    </div>
-                    <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="item-subject font-weight-normal">Settings</h6>
-                    </div>
-                  </li>
-                  <li class="mdc-list-item" role="menuitem">
-                    <div class="item-thumbnail item-thumbnail-icon-only">
-                      <i class="mdi mdi-progress-download text-primary"></i>                      
-                    </div>
-                    <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="item-subject font-weight-normal">Update</h6>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            
             <div class="menu-button-container">
               <button class="mdc-button mdc-menu-button">
                 <i class="mdi mdi-bell"></i>
@@ -158,31 +134,7 @@
                 </ul>
               </div>
             </div>
-            <div class="menu-button-container d-none d-md-block">
-              <button class="mdc-button mdc-menu-button">
-                <i class="mdi mdi-arrow-down-bold-box"></i>
-              </button>
-              <div class="mdc-menu mdc-menu-surface" tabindex="-1">
-                <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
-                  <li class="mdc-list-item" role="menuitem">
-                    <div class="item-thumbnail item-thumbnail-icon-only">
-                      <i class="mdi mdi-lock-outline text-primary"></i>
-                    </div>
-                    <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="item-subject font-weight-normal">Lock screen</h6>
-                    </div>
-                  </li>
-                  <li class="mdc-list-item" role="menuitem">
-                    <div class="item-thumbnail item-thumbnail-icon-only">
-                      <i class="mdi mdi-logout-variant text-primary"></i>                      
-                    </div>
-                    <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="item-subject font-weight-normal">Logout</h6>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            
           </div>
         </div>
       </header>

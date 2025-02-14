@@ -39,9 +39,9 @@
                       <div class="mdc-layout-grid__inner">
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
                           <div class="mdc-text-field w-100">
-                            <input type="text" name="username" class="mdc-text-field__input" id="text-field-hero-input" value="<?= set_value('username'); ?>" required>
+                            <input type="text" name="email" class="mdc-text-field__input" id="text-field-hero-input" value="<?= set_value('email'); ?>" required>
                             <div class="mdc-line-ripple"></div>
-                            <label for="text-field-hero-input" class="mdc-floating-label">Username</label>
+                            <label for="text-field-hero-input" class="mdc-floating-label">Email</label>
                           </div>
                         </div>
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
@@ -73,12 +73,18 @@
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop d-flex align-items-center justify-content-end">
                           <a href="">Forgot Password</a>
                         </div>
+
+
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
                           <button type="submit" class="mdc-button mdc-button--raised w-100">
                             Login
                           </button>
                         </div>
                       </div>
+                      <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop d-flex align-items-center">
+                        <p>Don't have an account? <a href="<?= base_url('hospital/register'); ?>">create account</a></p>
+                      </div>
+
                     </div>
                     <?= form_close() ?>
                 </div>

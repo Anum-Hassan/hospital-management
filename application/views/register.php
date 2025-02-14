@@ -135,6 +135,10 @@
                             <button type="submit" class="mdc-button mdc-button--raised w-100">Register</button>
                           </div>
                         </div>
+                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop d-flex align-items-center">
+  <p>Already have an account? <a href="<?= base_url('hospital/register'); ?>">login</a></p>
+</div>
+
                       </div>
                       <?= form_close() ?>
                   </div>
