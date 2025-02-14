@@ -15,6 +15,12 @@
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'departments' || $this->uri->segment(1) == 'manage-departments') ? 'active' : '' ?>" href="<?php echo base_url('departments') ?>">
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
+            Departments
+          </a>
+        </div>
+        <div class="mdc-list-item mdc-drawer-item">
           <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'doctors' || $this->uri->segment(1) == 'manage-doctors') ? 'active' : '' ?>" href="<?php echo base_url('doctors') ?>">
             <i class="fas fa-stethoscope pr-3"></i>
             Doctors
@@ -33,15 +39,15 @@
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'appointments' || $this->uri->segment(1) == 'manage-appointments') ? 'active' : '' ?>" href="<?php echo base_url('appointments') ?>">
-            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
-            Appointments
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'schedule' || $this->uri->segment(1) == 'manage-schedule') ? 'active' : '' ?>" href="<?php echo base_url('schedule') ?>">
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">event_note</i>
+            Doctors Schedule
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'departments' || $this->uri->segment(1) == 'manage-departments') ? 'active' : '' ?>" href="<?php echo base_url('departments') ?>">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'appointments' || $this->uri->segment(1) == 'manage-appointments') ? 'active' : '' ?>" href="<?php echo base_url('appointments') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
-            Departments
+            Appointments
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">

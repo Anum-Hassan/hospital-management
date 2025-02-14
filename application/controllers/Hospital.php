@@ -94,6 +94,23 @@ class Hospital extends CI_Controller
         }
     }
 
+    public function logout()
+    {
+        // Destroy session data
+        $this->session->unset_userdata('admin_logged_in');
+        $this->session->unset_userdata('admin_id');
+        $this->session->unset_userdata('username');
+        $this->session->unset_userdata('email');
+        $this->session->unset_userdata('role');
+
+        // Set a flash message
+        $this->session->set_flashdata('success', 'You have been logged out successfully.');
+
+        // Redirect to login page
+        redirect($route['default_controller']);
+    }
+
+
     // Dashboard function
     public function dashboard()
     {
@@ -130,7 +147,7 @@ class Hospital extends CI_Controller
     }
     // End Toggle status
 
-    // Doctor Functions
+    //Start Doctor Functions
     public function doctors()
     {
         $data['doctor_details'] = $this->Hospital_Model->getDoctors();
@@ -164,15 +181,21 @@ class Hospital extends CI_Controller
             $this->form_validation->set_rules('name', 'Doctor Name', 'trim|required');
             $this->form_validation->set_rules('specialization', 'Specialization', 'trim|required');
             $this->form_validation->set_rules('consultation_fee', 'Consultation Fee', 'trim|required|numeric');
-            $this->form_validation->set_rules('phone', 'Phone', 'trim|required|numeric');
+            $this->form_validation->set_rules('phone', 'Phone', 'trim|required|regex_match[/^[0-9+\-() ]+$/]');
+            $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+            $this->form_validation->set_rules('qualification', 'Qualification', 'trim|required');
+            $this->form_validation->set_rules('department_id', 'Department', 'trim|required');
+            $this->form_validation->set_rules('experience', 'Experience', 'trim|required|numeric|1');
             $this->form_validation->set_rules('address', 'Address', 'trim|required');
 
             if ($this->form_validation->run() == FALSE) {
                 $this->session->set_flashdata('error', validation_errors());
                 redirect('manage-doctors');
             } else {
+                // Upload image first
                 $uploadedImage = $this->uploadImage();
 
+                // Check if upload failed and if image is required
                 if (!$uploadedImage && $_FILES['image']['name']) {
                     $this->session->set_flashdata('error', 'Image upload failed!');
                     redirect('manage-doctors');
@@ -180,10 +203,14 @@ class Hospital extends CI_Controller
 
                 $doctorData = [
                     'name' => $this->input->post('name'),
-                    'image' => $uploadedImage,
+                    'image' => $uploadedImage, 
                     'specialization' => $this->input->post('specialization'),
+                    'qualification' => $this->input->post('qualification'),
+                    'department_id' => $this->input->post('department_id'),
+                    'experience' => $this->input->post('experience'),
                     'consultation_fee' => $this->input->post('consultation_fee'),
                     'phone' => $this->input->post('phone'),
+                    'email' => $this->input->post('email'),
                     'address' => $this->input->post('address')
                 ];
 
@@ -196,27 +223,38 @@ class Hospital extends CI_Controller
                 }
             }
         } else {
-            $this->load->view('manage-doctors');
+            $data['departments'] = $this->Hospital_Model->getDepartments(); 
+            $this->load->view('manage-doctors', $data);
         }
     }
+
 
     public function editDoctor($id)
     {
         $data['doctor'] = $this->Hospital_Model->getDoctorById($id);
+
         if (empty($data['doctor'])) {
             show_404();
         }
+
+        $data['departments'] = $this->Hospital_Model->getDepartments();
+
         $this->load->view('manage-doctors', $data);
     }
+
 
     public function updateDoctor($id)
     {
         $data = [
             'name' => $this->input->post('name'),
+            'qualification' => $this->input->post('qualification'),
             'specialization' => $this->input->post('specialization'),
             'consultation_fee' => $this->input->post('consultation_fee'),
             'phone' => $this->input->post('phone'),
             'address' => $this->input->post('address'),
+            'email' => $this->input->post('email'),
+            'department_id' => $this->input->post('department_id'),
+            'experience' => $this->input->post('experience'),
         ];
 
         if (!empty($_FILES['image']['name'])) {
@@ -239,6 +277,7 @@ class Hospital extends CI_Controller
         redirect('doctors');
     }
     // End Doctor Function
+
     // Start Department Functions
     public function depart()
     {
@@ -311,14 +350,13 @@ class Hospital extends CI_Controller
     public function addPatient()
     {
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
-            // Form validation rules
             $this->form_validation->set_rules('user_id', 'User ID', 'trim|numeric');
             $this->form_validation->set_rules('doctor_id', 'Doctor', 'trim|numeric');
             $this->form_validation->set_rules('room_id', 'Room', 'trim|numeric');
             $this->form_validation->set_rules('check_in', 'Check-in Date', 'trim|required');
             $this->form_validation->set_rules('age', 'Age', 'trim|required|numeric');
             $this->form_validation->set_rules('gender', 'Gender', 'trim|required|in_list[male,female,other]');
-            $this->form_validation->set_rules('phone', 'Phone', 'trim|required|numeric');
+            $this->form_validation->set_rules('phone', 'Phone', 'trim|required|regex_match[/^[0-9+\-() ]+$/]');
             $this->form_validation->set_rules('address', 'Address', 'trim|required');
 
             if ($this->form_validation->run() == FALSE) {
@@ -326,6 +364,7 @@ class Hospital extends CI_Controller
                 redirect('manage-patients');
             } else {
                 $patientData = [
+                    'name' => $this->input->post('name'),
                     'user_id' => $this->input->post('user_id') ?: null,
                     'doctor_id' => $this->input->post('doctor_id') ?: null,
                     'room_id' => $this->input->post('room_id') ?: null,
@@ -335,6 +374,7 @@ class Hospital extends CI_Controller
                     'gender' => $this->input->post('gender'),
                     'phone' => $this->input->post('phone'),
                     'address' => $this->input->post('address'),
+                    'status' => $this->input->post('status')
                 ];
 
                 if ($this->Hospital_Model->insertPatient($patientData)) {
@@ -346,7 +386,6 @@ class Hospital extends CI_Controller
                 }
             }
         } else {
-            // Fetch only active doctors with status = 1
             $data['doctors'] = $this->Hospital_Model->getActiveDoctors();
             $data['users'] = $this->db->get('users')->result();
             $data['rooms'] = $this->db->get('rooms')->result();
@@ -361,7 +400,6 @@ class Hospital extends CI_Controller
             show_404();
         }
 
-        // Fetch only active doctors with status = 1
         $data['doctors'] = $this->Hospital_Model->getActiveDoctors();
         $data['users'] = $this->db->get('users')->result();
         $data['rooms'] = $this->db->get('rooms')->result();
@@ -373,6 +411,7 @@ class Hospital extends CI_Controller
     public function updatePatient($id)
     {
         $data = [
+            'name' => $this->input->post('name'),
             'user_id' => $this->input->post('user_id') ?: NULL,
             'doctor_id' => $this->input->post('doctor_id'),
             'room_id' => $this->input->post('room_id') ?: NULL,
@@ -381,10 +420,10 @@ class Hospital extends CI_Controller
             'age' => $this->input->post('age'),
             'gender' => $this->input->post('gender'),
             'phone' => $this->input->post('phone'),
-            'address' => $this->input->post('address')
+            'address' => $this->input->post('address'),
+            'status' => $this->input->post('status')
         ];
 
-        // Update operation and error handling
         if ($this->Hospital_Model->updatePatient($id, $data)) {
             $this->session->set_flashdata('success', 'Patient information updated successfully.');
         } else {
@@ -437,16 +476,160 @@ class Hospital extends CI_Controller
     }
     // End Patient History
 
+    // Start Staff
     public function staff()
     {
-        $this->load->view('staff');
+        $data['staff_details'] = $this->Hospital_Model->getStaff();
+        $this->load->view('staff', $data);
     }
+
     public function addStaff()
     {
-        $this->load->view('manage-staff');
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $this->form_validation->set_rules('name', 'Staff Name', 'trim|required');
+            $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|is_unique[staff.email]');
+            $this->form_validation->set_rules('phone', 'Phone', 'trim|required');
+            $this->form_validation->set_rules('role', 'Role', 'trim|required');
+            $this->form_validation->set_rules('salary', 'Salary', 'trim|required|numeric');
+            $this->form_validation->set_rules('address', 'Address', 'trim|required');
+            $this->form_validation->set_rules('status', 'Status', 'trim|required');
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->session->set_flashdata('error', validation_errors());
+                redirect('manage-staff');
+            } else {
+                $staffData = [
+                    'name' => $this->input->post('name'),
+                    'email' => $this->input->post('email'),
+                    'phone' => $this->input->post('phone'),
+                    'role' => $this->input->post('role'),
+                    'salary' => $this->input->post('salary'),
+                    'address' => $this->input->post('address'),
+                    'status' => $this->input->post('status'),
+                ];
+
+                if ($this->Hospital_Model->insertStaff($staffData)) {
+                    $this->session->set_flashdata('success', 'Staff member added successfully!');
+                    redirect('staff');
+                } else {
+                    $this->session->set_flashdata('error', 'Failed to add staff record!');
+                    redirect('manage-staff');
+                }
+            }
+        } else {
+            $this->load->view('manage-staff');
+        }
+    }
+
+    public function editStaff($id)
+    {
+        $data['staff'] = $this->Hospital_Model->getStaffById($id);
+        if (empty($data['staff'])) {
+            show_404();
+        }
+        $this->load->view('manage-staff', $data);
+    }
+
+    public function updateStaff($id)
+    {
+        $data = [
+            'name' => $this->input->post('name'),
+            'email' => $this->input->post('email'),
+            'phone' => $this->input->post('phone'),
+            'role' => $this->input->post('role'),
+            'salary' => $this->input->post('salary'),
+            'address' => $this->input->post('address'),
+            'status' => $this->input->post('status'),
+        ];
+
+        if ($this->Hospital_Model->updateStaff($id, $data)) {
+            $this->session->set_flashdata('success', 'Staff information updated successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to update staff information.');
+        }
+
+        redirect('staff');
+    }
+    // End Staff
+
+    // Start schedule
+    public function schedule()
+    {
+        $data['schedules'] = $this->Hospital_Model->getSchedule();
+        $this->load->view('schedule', $data);
+    }
+
+    public function addSchedule()
+    {
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $this->form_validation->set_rules('doctor_id', 'Doctor', 'trim|numeric');
+            $this->form_validation->set_rules('department_id', 'Department', 'trim|numeric');
+            $this->form_validation->set_rules('start_time', 'Start Time', 'trim|required');
+            $this->form_validation->set_rules('end_time', 'End Time', 'trim|required');
+            $this->form_validation->set_rules('days[]', 'Days', 'required');
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->session->set_flashdata('error', validation_errors());
+                redirect('manage-schedule');
+            } else {
+                $days = json_encode($this->input->post('days'));
+                $scheduleData = [
+                    'doctor_id' => $this->input->post('doctor_id'),
+                    'department_id' => $this->input->post('department_id'),
+                    'days' => $days,
+                    'start_time' => $this->input->post('start_time'),
+                    'end_time' => $this->input->post('end_time')
+                ];
+
+                if ($this->Hospital_Model->insertSchedule($scheduleData)) {
+                    $this->session->set_flashdata('success', 'Schedule added successfully!');
+                    redirect('schedule');
+                } else {
+                    $this->session->set_flashdata('error', 'Failed to add schedule record!');
+                    redirect('manage-schedule');
+                }
+            }
+        } else {
+            $data['doctors'] = $this->Hospital_Model->getActiveDoctors();
+            $data['departments'] = $this->Hospital_Model->getDepartments();
+            $this->load->view('manage-schedule', $data);
+        }
+    }
+
+    public function editSchedule($id)
+    {
+        $data['schedule'] = $this->Hospital_Model->getScheduleById($id);
+        if (empty($data['schedule'])) {
+            show_404();
+        }
+
+        $data['doctors'] = $this->Hospital_Model->getActiveDoctors();
+        $data['departments'] = $this->Hospital_Model->getDepartments();
+        $this->load->view('manage-schedule', $data);
     }
 
 
+    public function updateSchedule($id)
+    {
+        $days = json_encode($this->input->post('days'));
+        $data = [
+            'doctor_id' => $this->input->post('doctor_id'),
+            'department_id' => $this->input->post('department_id'),
+            'start_time' => $this->input->post('start_time'),
+            'end_time' => $this->input->post('end_time'),
+            'days' => $days,
+        ];
+
+        if ($this->Hospital_Model->updateSchedule($id, $data)) {
+            $this->session->set_flashdata('success', 'Schedule information updated successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to update Schedule information.');
+        }
+
+        redirect('schedule');
+    }
+
+    // End Schedule
     public function appt()
     {
         $this->load->view('appointments');

@@ -56,12 +56,16 @@ class Hospital_Model extends CI_Model
     // Start Doctor
     public function getDoctors()
     {
-        $query = $this->db->get('doctors');
-        if (!$query) {
-            log_message('error', 'Database error: ' . $this->db->error()['message']);
-            return [];
-        }
-        return $query->result();
+        $this->db->select('doctors.*, departments.name as department_name');
+        $this->db->from('doctors');
+        $this->db->join('departments', 'doctors.department_id = departments.id', 'left');
+        return $this->db->get()->result();
+
+    }
+
+    public function getDepartments()
+    {
+        return $this->db->where('status', 1)->get('departments')->result();
     }
 
     public function insertDoctor($data)
@@ -150,6 +154,8 @@ class Hospital_Model extends CI_Model
 
     public function updatePatient($id, $data)
     {
+        // print_r($_POST);
+        // exit;
         $this->db->where('id', $id);
         return $this->db->update('patients', $data);
     }
@@ -176,4 +182,68 @@ class Hospital_Model extends CI_Model
         return $this->db->delete('patient_medical_history');
     }
     // End Patient History
+
+    // Start Staff
+    public function getStaff()
+    {
+        $query = $this->db->get('staff');
+        if (!$query) {
+            log_message('error', 'Database error: ' . $this->db->error()['message']);
+            return [];
+        }
+        return $query->result();
+    }
+
+    public function insertStaff($data)
+    {
+        $query = $this->db->insert('staff', $data);
+        if (!$query) {
+            log_message('error', $this->db->last_query());
+            log_message('error', $this->db->error());
+            return false;
+        }
+        return true;
+    }
+
+    public function getStaffById($id)
+    {
+        $query = $this->db->get_where('staff', ['id' => $id]);
+        return $query->row();
+    }
+
+    public function updateStaff($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('staff', $data);
+    }
+    // End Staff
+
+    // Start Patient
+    public function getSchedule()
+    {
+        $this->db->select('schedule.*, doctors.name as doctor_name, departments.name as department_name');
+        $this->db->from('schedule');
+        $this->db->join('doctors', 'schedule.doctor_id = doctors.id', 'left');
+        $this->db->join('departments', 'schedule.department_id = departments.id', 'left');
+        return $this->db->get()->result();
+    }
+
+    public function insertSchedule($data)
+    {
+        return $this->db->insert('schedule', $data);
+    }
+
+    public function getScheduleById($id)
+    {
+        return $this->db->get_where('schedule', ['id' => $id])->row();
+    }
+
+    public function updateSchedule($id, $data)
+    {
+        // print_r($_POST);
+        // exit;
+        $this->db->where('id', $id);
+        return $this->db->update('schedule', $data);
+    }
+    // End Schedule
 }

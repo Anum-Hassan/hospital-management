@@ -36,10 +36,13 @@
                         <th>#</th>
                         <th>Name</th>
                         <th>Specialization</th>
+                        <th>Department</th>
+                        <th>Experience</th>
                         <th>Consultation Fee</th>
+                        <th>Availability</th>
+                        <th>Qualification</th>
                         <th>Phone</th>
                         <th>Address</th>
-                        <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -54,15 +57,18 @@
                               <?php echo $doctor->name; ?>
                             </td>
                             <td><?php echo $doctor->specialization; ?></td>
+                            <td><?php echo $doctor->department_name; ?></td>
+                            <td><?php echo $doctor->experience; ?></td>
                             <td><?php echo $doctor->consultation_fee; ?></td>
-                            <td><?php echo $doctor->phone; ?></td>
-                            <td><?php echo $doctor->address; ?></td>
                             <td>
                               <a href="<?= base_url('hospital/toggle_status/doctors/' . $doctor->id); ?>"
                                 class="btn btn-sm <?= $doctor->status == 1 ? 'btn-outline-success' : 'btn-outline-danger'; ?>">
-                                <?= $doctor->status == 1 ? 'Active' : 'Inactive'; ?>
+                                <?= $doctor->status == 1 ? 'Available' : 'Unavailable'; ?>
                               </a>
                             </td>
+                            <td><?php echo $doctor->qualification; ?></td>
+                            <td><?php echo $doctor->phone; ?></td>
+                            <td><?php echo $doctor->address; ?></td>
                             <td>
                               <a href="<?php echo base_url('manage-doctors/' . $doctor->id); ?>" class="btn btn-sm btn-outline-primary">
                                 <span class="fa-regular fa-pen-to-square"></span>
