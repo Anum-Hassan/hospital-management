@@ -11,9 +11,9 @@ class Hospital_Model extends CI_Model
         return $this->db->insert('admins', $data);
     }
 
-    public function check_admin_login($username, $password)
+    public function check_admin_login($email, $password)
     {
-        $this->db->where('username', $username);
+        $this->db->where('email', $email);
         $query = $this->db->get('admins');
 
         if ($query->num_rows() == 1) {
@@ -25,6 +25,8 @@ class Hospital_Model extends CI_Model
         }
         return false;
     }
+
+  
     // Delete Record for all modules
     public function deleteRecord($table, $id)
     {
