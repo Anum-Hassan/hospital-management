@@ -62,7 +62,6 @@ class Hospital_Model extends CI_Model
         $this->db->from('doctors');
         $this->db->join('departments', 'doctors.department_id = departments.id', 'left');
         return $this->db->get()->result();
-
     }
 
     public function getDepartments()
@@ -242,10 +241,34 @@ class Hospital_Model extends CI_Model
 
     public function updateSchedule($id, $data)
     {
-        // print_r($_POST);
-        // exit;
         $this->db->where('id', $id);
         return $this->db->update('schedule', $data);
     }
     // End Schedule
+
+    // Start Appointment
+    public function getAppt()
+    {
+        $this->db->select('appointments.*, patients.name AS patient_name, doctors.name AS doctor_name, departments.name AS department_name');
+        $this->db->from('appointments');
+        $this->db->join('patients', 'appointments.patient_id = patients.id', 'left');
+        $this->db->join('doctors', 'appointments.doctor_id = doctors.id', 'left');
+        $this->db->join('departments', 'appointments.department_id = departments.id', 'left');
+        return $this->db->get()->result();
+    }
+    public function insertAppt($data)
+    {
+        return $this->db->insert('appointments', $data);
+    }
+    public function getApptById($id)
+    {
+        return $this->db->get_where('appointments', ['id' => $id])->row();
+    }
+
+    public function updateAppt($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('appointments', $data);
+    }
+    // End Appointment
 }

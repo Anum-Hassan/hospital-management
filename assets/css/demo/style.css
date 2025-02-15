@@ -8018,7 +8018,7 @@ a.mdc-list-item {
 
 .mdc-text-field--outlined .mdc-text-field__input {
   display: flex;
-  padding: 12px 16px 14px;
+  padding: 12px 16px 10px;
   border: none !important;
   background-color: transparent;
   z-index: 1;

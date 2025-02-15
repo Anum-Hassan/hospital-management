@@ -16,7 +16,7 @@
         </div>
         <div class="mdc-list-item mdc-drawer-item">
           <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'departments' || $this->uri->segment(1) == 'manage-departments') ? 'active' : '' ?>" href="<?php echo base_url('departments') ?>">
-            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">business</i>
             Departments
           </a>
         </div>
@@ -46,7 +46,7 @@
         </div>
         <div class="mdc-list-item mdc-drawer-item">
           <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'appointments' || $this->uri->segment(1) == 'manage-appointments') ? 'active' : '' ?>" href="<?php echo base_url('appointments') ?>">
-            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">alarm</i>
             Appointments
           </a>
         </div>

@@ -9,6 +9,11 @@
     <div class="main-wrapper mdc-drawer-app-content">
       <!-- partial:partials/_navbar.html -->
       <?php $this->load->view('inc/navbar'); ?>
+      <?php if ($this->session->flashdata('error')): ?>
+        <div class="alert alert-danger">
+          <?php echo $this->session->flashdata('error'); ?>
+        </div>
+      <?php endif; ?>
       <!-- partial -->
       <div class="page-wrapper mdc-toolbar-fixed-adjust">
         <main class="content-wrapper">
@@ -16,97 +21,134 @@
             <div class="card border-0">
               <div class="mdc-layout-grid__inner">
                 <div class="mdc-layout-grid__cell--span-12">
-                  <form class="mdc-card" method="post" action="<?php echo isset($doctor) ? base_url('Hospital/updateDoctor/' . $doctor->id) : base_url('Hospital/addDoctor'); ?>" enctype="multipart/form-data">
+                  <form class="mdc-card" method="post" action="<?php echo isset($appointment) ? base_url('Hospital/updateAppt/' . $appointment->id) : base_url('Hospital/addAppt'); ?>" enctype="multipart/form-data">
                     <h4 class="card-title" style="color: #4b3a6e;">
-                      <?php echo isset($doctor) ? 'Update Appointment' : 'Add Appointment'; ?>
+                      <?php echo isset($appointment) ? 'Update Appointment' : 'Add Appointment'; ?>
                     </h4>
                     <div class="template-demo">
                       <div class="mdc-layout-grid__inner">
+
+                        <!-- Patient Selection -->
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                           <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="text-field-hero-input" name="name" required value="<?php echo isset($doctor) ? $doctor->name : ''; ?>">
-                            <div class="mdc-notched-outline mdc-notched-outline--upgraded">
+                            <select class="mdc-text-field__input" name="patient_id">
+                              <?php if (!isset($appointment)): ?>
+                                <option value="" disabled selected></option>
+                              <?php endif; ?>
+                              <?php foreach ($patients as $patient): ?>
+                                <option value="<?php echo $patient->id; ?>" <?php echo isset($appointment) && $appointment->patient_id == $patient->id ? 'selected' : ''; ?>>
+                                  <?php echo $patient->name; ?>
+                                </option>
+                              <?php endforeach; ?>
+                            </select>
+                            <div class="mdc-notched-outline">
                               <div class="mdc-notched-outline__leading"></div>
                               <div class="mdc-notched-outline__notch">
-                                <label for="text-field-hero-input" class="mdc-floating-label">Name</label>
+                                <label class="mdc-floating-label">Patient</label>
                               </div>
                               <div class="mdc-notched-outline__trailing"></div>
                             </div>
                           </div>
                         </div>
 
-                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
-                          <div class="mdc-text-field mdc-text-field--outlined" onclick="document.getElementById('file-upload-input').click()">
-                            <input class="mdc-text-field__input" id="file-name-display" type="text" readonly placeholder="Upload Image" value="<?php echo isset($doctor) ? $doctor->image : ''; ?>">
-                            <div class="mdc-notched-outline mdc-notched-outline--upgraded">
-                              <div class="mdc-notched-outline__leading"></div>
-                              <div class="mdc-notched-outline__notch">
-                                <label for="file-upload-input" class="mdc-floating-label">Upload Image</label>
-                              </div>
-                              <div class="mdc-notched-outline__trailing"></div>
-                            </div>
-                          </div>
-                          <input type="file" id="file-upload-input" name="image" style="display: none;" onchange="updateFileName()">
-                        </div>
-
-                        <!-- Specialization Field -->
+                        <!-- Doctor Selection -->
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                           <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="text-field-hero-input" name="specialization" required value="<?php echo isset($doctor) ? $doctor->specialization : ''; ?>">
-                            <div class="mdc-notched-outline mdc-notched-outline--upgraded">
+                            <select class="mdc-text-field__input" name="doctor_id">
+                              <?php if (!isset($appointment)): ?>
+                                <option value="" disabled selected></option>
+                              <?php endif; ?>
+                              <?php foreach ($doctors as $doctor): ?>
+                                <option value="<?php echo $doctor->id; ?>" <?php echo isset($appointment) && $appointment->doctor_id == $doctor->id ? 'selected' : ''; ?>>
+                                  <?php echo $doctor->name; ?>
+                                </option>
+                              <?php endforeach; ?>
+                            </select>
+                            <div class="mdc-notched-outline">
                               <div class="mdc-notched-outline__leading"></div>
                               <div class="mdc-notched-outline__notch">
-                                <label for="text-field-hero-input" class="mdc-floating-label">Specialization</label>
+                                <label class="mdc-floating-label">Doctor</label>
                               </div>
                               <div class="mdc-notched-outline__trailing"></div>
                             </div>
                           </div>
                         </div>
 
-                        <!-- Keep other fields intact with dynamic values -->
+                        <!-- Department Selection -->
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                           <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="text-field-hero-input" name="consultation_fee" required value="<?php echo isset($doctor) ? $doctor->consultation_fee : ''; ?>">
-                            <div class="mdc-notched-outline mdc-notched-outline--upgraded">
+                            <select class="mdc-text-field__input" name="department_id">
+                              <?php if (!isset($appointment)): ?>
+                                <option value="" disabled selected></option>
+                              <?php endif; ?>
+                              <?php foreach ($departments as $department): ?>
+                                <option value="<?php echo $department->id; ?>" <?php echo isset($appointment) && $appointment->department_id == $department->id ? 'selected' : ''; ?>>
+                                  <?php echo $department->name; ?>
+                                </option>
+                              <?php endforeach; ?>
+                            </select>
+                            <div class="mdc-notched-outline">
                               <div class="mdc-notched-outline__leading"></div>
                               <div class="mdc-notched-outline__notch">
-                                <label for="text-field-hero-input" class="mdc-floating-label">Consultation Fee</label>
+                                <label class="mdc-floating-label">Department</label>
                               </div>
                               <div class="mdc-notched-outline__trailing"></div>
                             </div>
                           </div>
                         </div>
 
+                        <!-- Appointment Date -->
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                           <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="text-field-hero-input" name="phone" required value="<?php echo isset($doctor) ? $doctor->phone : ''; ?>">
+                            <input class="mdc-text-field__input" id="appointment_date" type="date" name="appointment_date" required value="<?php echo isset($appointment) ? $appointment->appointment_date : ''; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                               <div class="mdc-notched-outline__leading"></div>
                               <div class="mdc-notched-outline__notch">
-                                <label for="text-field-hero-input" class="mdc-floating-label">Phone</label>
+                                <label for="appointment_date" class="mdc-floating-label">Appointment Date</label>
                               </div>
                               <div class="mdc-notched-outline__trailing"></div>
                             </div>
                           </div>
                         </div>
 
+                        <!-- Appointment Time -->
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                           <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="text-field-hero-input" name="address" required value="<?php echo isset($doctor) ? $doctor->address : ''; ?>">
+                            <input class="mdc-text-field__input" id="appointment_time" type="time" name="appointment_time" required value="<?php echo isset($appointment) ? $appointment->appointment_time : ''; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                               <div class="mdc-notched-outline__leading"></div>
                               <div class="mdc-notched-outline__notch">
-                                <label for="text-field-hero-input" class="mdc-floating-label">Address</label>
+                                <label for="appointment_time" class="mdc-floating-label">Appointment Time</label>
                               </div>
                               <div class="mdc-notched-outline__trailing"></div>
                             </div>
                           </div>
                         </div>
+
+                        <!-- Status -->
+                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                          <div class="mdc-text-field mdc-text-field--outlined">
+                            <select class="mdc-text-field__input" id="status" name="status" required>
+                              <option value="Pending" <?php echo isset($appointment) && $appointment->status == 'Pending' ? 'selected' : ''; ?>>Pending</option>
+                              <option value="Approved" <?php echo isset($appointment) && $appointment->status == 'Approved' ? 'selected' : ''; ?>>Approved</option>
+                              <option value="Canceled" <?php echo isset($appointment) && $appointment->status == 'Canceled' ? 'selected' : ''; ?>>Canceled</option>
+                              <option value="Completed" <?php echo isset($appointment) && $appointment->status == 'Completed' ? 'selected' : ''; ?>>Completed</option>
+                            </select>
+                            <div class="mdc-notched-outline mdc-notched-outline--upgraded">
+                              <div class="mdc-notched-outline__leading"></div>
+                              <div class="mdc-notched-outline__notch">
+                                <label for="status" class="mdc-floating-label">Status</label>
+                              </div>
+                              <div class="mdc-notched-outline__trailing"></div>
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
 
                     <button class="mdc-button mdc-button--raised mdc-ripple-upgraded mt-4" type="submit">
-                      <?php echo isset($doctor) ? 'Update Record' : 'Add Record'; ?>
+                      <?php echo isset($appointment) ? 'Update Record' : 'Add Record'; ?>
                     </button>
                   </form>
 
@@ -123,22 +165,9 @@
   </div>
 
 
-  <?php if ($this->session->flashdata('error')): ?>
-    <div class="alert alert-danger">
-      <?php echo $this->session->flashdata('error'); ?>
-    </div>
-  <?php endif; ?>
 
   <?php $this->load->view('inc/bottom'); ?>
-  <script>
-    function updateFileName() {
-      const fileInput = document.getElementById('file-upload-input');
-      const fileNameDisplay = document.getElementById('file-name-display');
-      if (fileInput.files.length > 0) {
-        fileNameDisplay.value = fileInput.files[0].name;
-      }
-    }
-  </script>
+
 </body>
 
 </html>
