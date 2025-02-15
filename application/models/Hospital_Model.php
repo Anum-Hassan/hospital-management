@@ -26,7 +26,7 @@ class Hospital_Model extends CI_Model
         return false;
     }
 
-  
+
     // Delete Record for all modules
     public function deleteRecord($table, $id)
     {
@@ -54,6 +54,11 @@ class Hospital_Model extends CI_Model
         $this->db->update($table, ['status' => $new_status]);
     }
     // End Toggle Status
+
+    public function getActiveDoctors()
+    {
+        return $this->db->get_where('doctors', ['status' => 1])->result();
+    }
 
     // Start Doctor
     public function getDoctors()
@@ -136,11 +141,6 @@ class Hospital_Model extends CI_Model
         $this->db->join('rooms', 'patients.room_id = rooms.id', 'left');
         $this->db->join('users', 'patients.user_id = users.id', 'left');
         return $this->db->get()->result();
-    }
-
-    public function getActiveDoctors()
-    {
-        return $this->db->get_where('doctors', ['status' => 1])->result();
     }
 
     public function insertPatient($data)
@@ -271,4 +271,45 @@ class Hospital_Model extends CI_Model
         return $this->db->update('appointments', $data);
     }
     // End Appointment
+
+    // Start Rooms
+    public function getRooms()
+    {
+        $this->db->select('rooms.*, doctors.name AS doctor_name, staff.name AS nurse_name');
+        $this->db->from('rooms');
+        $this->db->join('doctors', 'rooms.assigned_doctor_id = doctors.id', 'left');
+        $this->db->join('staff', 'rooms.assigned_nurse_id = staff.id AND staff.role = "nurse"', 'left');
+        return $this->db->get()->result();
+    }
+
+    public function insertRoom($data)
+    {
+        return $this->db->insert('rooms', $data);
+    }
+
+    public function getRoomById($id)
+    {
+        $this->db->select('rooms.*, doctors.name AS doctor_name, staff.name AS nurse_name');
+        $this->db->from('rooms');
+        $this->db->join('doctors', 'rooms.assigned_doctor_id = doctors.id', 'left');
+        $this->db->join('staff', 'rooms.assigned_nurse_id = staff.id AND staff.role = "nurse"', 'left');
+        $this->db->where('rooms.id', $id);
+        return $this->db->get()->row();
+    }
+
+    public function updateRoom($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('rooms', $data);
+    }
+
+    // public function getNurses()
+    // {
+    //     return $this->db->get_where('staff', ['role' => 'nurse'])->result();
+    // }
+    public function getActiveNurses()
+    {
+        return $this->db->get_where('staff', ['status' => 'active', 'role' => 'nurse'])->result();
+    }
+    // End Rooms
 }

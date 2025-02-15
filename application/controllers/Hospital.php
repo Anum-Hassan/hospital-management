@@ -12,22 +12,27 @@ class Hospital extends CI_Controller
         $this->load->helper('url');
 
         $allowed = ['login', 'register'];
+        if (!in_array($this->router->fetch_method(), $allowed)) {
+            $this->is_logged_in();
+        }
 
-    // Agar requested page "allowed" list me nahi hai to login check karein
-    if (!in_array($this->router->fetch_method(), $allowed)) {
-        $this->is_logged_in();
-      
+        $user_data = array(
+            'username' => $this->session->userdata('username'),
+            'image'    => $this->session->userdata('image')
+        );
+
+        $this->load->vars($user_data); 
     }
-}
+
     private function is_logged_in()
     {
         if (!$this->session->userdata('admin_logged_in')) {
             $this->session->set_flashdata('error', 'Please login first.');
-            redirect('hospital/login'); // Login page pe redirect karna
+            redirect('login');
             exit;
         }
     }
-    
+
     public function register()
     {
         $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[3]|max_length[20]');
@@ -106,61 +111,39 @@ class Hospital extends CI_Controller
                 redirect('dashboard');
             } else {
                 $this->session->set_flashdata('error', 'Invalid username or password.');
-                redirect($route['default_controller']);
+                redirect('login');
             }
         }
     }
-<<<<<<< HEAD
-    public function logout() {
-        // Destroy session
-=======
 
     public function logout()
     {
         // Destroy session data
->>>>>>> a92077c14c48bce7c1260012a3cd386b7f149a36
         $this->session->unset_userdata('admin_logged_in');
         $this->session->unset_userdata('admin_id');
         $this->session->unset_userdata('username');
         $this->session->unset_userdata('email');
         $this->session->unset_userdata('role');
-<<<<<<< HEAD
-        
-        // Flash message for logout
-        $this->session->set_flashdata('success', 'You have been logged out successfully.');
-    
-        // Redirect to login page
-        redirect('hospital/login');
-    }
-    
-=======
 
-        // Set a flash message
         $this->session->set_flashdata('success', 'You have been logged out successfully.');
-
-        // Redirect to login page
-        redirect($route['default_controller']);
+        redirect('login');
     }
 
-
->>>>>>> a92077c14c48bce7c1260012a3cd386b7f149a36
     // Dashboard function
     public function dashboard()
     {
         if (!$this->session->userdata('admin_logged_in')) {
-            redirect($route['default_controller']);
+            redirect('login');
         }
-    
-        // Get user details from session
+
         $user_data = array(
             'username' => $this->session->userdata('username'),
-            'image'    => $this->session->userdata('image')  // Assuming you've saved 'image' in session
+            'image'    => $this->session->userdata('image')
         );
-    
-        // Pass data to the view
+
         $this->load->view('index', $user_data);
     }
-    
+
 
     // Delete Function for all
     public function deleteRecord($table, $id)
@@ -191,7 +174,7 @@ class Hospital extends CI_Controller
     //Start Doctor Functions
     public function doctors()
     {
-        $this->is_logged_in();
+        // $this->is_logged_in();
         $data['doctor_details'] = $this->Hospital_Model->getDoctors();
         $this->load->view('doctors', $data);
     }
@@ -245,7 +228,7 @@ class Hospital extends CI_Controller
 
                 $doctorData = [
                     'name' => $this->input->post('name'),
-                    'image' => $uploadedImage, 
+                    'image' => $uploadedImage,
                     'specialization' => $this->input->post('specialization'),
                     'qualification' => $this->input->post('qualification'),
                     'department_id' => $this->input->post('department_id'),
@@ -265,7 +248,7 @@ class Hospital extends CI_Controller
                 }
             }
         } else {
-            $data['departments'] = $this->Hospital_Model->getDepartments(); 
+            $data['departments'] = $this->Hospital_Model->getDepartments();
             $this->load->view('manage-doctors', $data);
         }
     }
@@ -324,7 +307,7 @@ class Hospital extends CI_Controller
     public function depart()
     {
         $data['depart_details'] = $this->Hospital_Model->getDeparts();
-      
+
         $this->load->view('departments', $data);
     }
 
@@ -718,7 +701,7 @@ class Hospital extends CI_Controller
             $this->load->view('manage-appointments', $data);
         }
     }
-    
+
     public function editAppt($id)
     {
         $data['appointment'] = $this->Hospital_Model->getApptById($id);
@@ -752,4 +735,86 @@ class Hospital extends CI_Controller
         redirect('appointments');
     }
     // End Appointment
+    // Start Apointment
+    public function room()
+    {
+        $data['room_details'] = $this->Hospital_Model->getRooms();
+        $data['doctors'] = $this->Hospital_Model->getActiveDoctors();
+        $data['nurses'] = $this->Hospital_Model->getActiveNurses();
+        $this->load->view('rooms', $data);
+    }
+
+    public function addRoom()
+    {
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $this->form_validation->set_rules('room_number', 'Room Number', 'required|trim|numeric');
+            $this->form_validation->set_rules('room_type', 'Room Type', 'required|trim');
+            $this->form_validation->set_rules('doctor_id', 'Doctor', 'required|trim|numeric');
+            $this->form_validation->set_rules('nurse_id', 'Nurse', 'required|trim|numeric');
+            $this->form_validation->set_rules('floor_number', 'Floor Number', 'required|trim|numeric');
+            $this->form_validation->set_rules('capacity', 'Capacity', 'required|trim|numeric');
+            $this->form_validation->set_rules('status', 'Status', 'required|trim|in_list[Available,Occupied,Under Maintenance]');
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->session->set_flashdata('error', validation_errors());
+                redirect('manage-rooms');
+            } else {
+                $data = [
+                    'room_number' => $this->input->post('room_number'),
+                    'room_type' => $this->input->post('room_type'),
+                    'assigned_doctor_id' => $this->input->post('doctor_id'),
+                    'assigned_nurse_id' => $this->input->post('nurse_id'),
+                    'floor_number' => $this->input->post('floor_number'),
+                    'capacity' => $this->input->post('capacity'),
+                    'status' => $this->input->post('status'),
+                ];
+
+                if ($this->Hospital_Model->insertRoom($data)) {
+                    $this->session->set_flashdata('success', 'Room added successfully!');
+                    redirect('rooms');
+                } else {
+                    $this->session->set_flashdata('error', 'Failed to add room record!');
+                    redirect('manage-rooms');
+                }
+            }
+        } else {
+            $data['doctors'] = $this->Hospital_Model->getActiveDoctors();
+            $data['nurses'] = $this->Hospital_Model->getActiveNurses();
+            $this->load->view('manage-rooms', $data);
+        }
+    }
+
+    public function editRoom($id)
+    {
+        $data['room'] = $this->Hospital_Model->getRoomById($id);
+        if (empty($data['room'])) {
+            show_404();
+        }
+        $data['doctors'] = $this->Hospital_Model->getActiveDoctors();
+        $data['nurses'] = $this->Hospital_Model->getActiveNurses();
+        $this->load->view('manage-rooms', $data);
+    }
+
+    public function updateRoom($id)
+    {
+        $data = [
+            'room_number' => $this->input->post('room_number'),
+            'room_type' => $this->input->post('room_type'),
+            'assigned_doctor_id' => $this->input->post('doctor_id'),
+            'assigned_nurse_id' => $this->input->post('nurse_id'),
+            'floor_number' => $this->input->post('floor_number'),
+            'capacity' => $this->input->post('capacity'),
+            'status' => $this->input->post('status'),
+        ];
+
+        if ($this->Hospital_Model->updateRoom($id, $data)) {
+            $this->session->set_flashdata('success', 'Room information updated successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to update room information.');
+        }
+
+        redirect('rooms');
+    }
+
+    // End Rooms
 }

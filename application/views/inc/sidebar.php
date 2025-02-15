@@ -34,7 +34,8 @@
         </div>
         <div class="mdc-list-item mdc-drawer-item">
           <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'patients' || $this->uri->segment(1) == 'manage-patients' || $this->uri->segment(1) == 'manage-medical-history') ? 'active' : '' ?>" href="<?php echo base_url('patients') ?>">
-            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">person</i>
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">elderly</i>
+            <!-- personal_injury -->
             Patients
           </a>
         </div>
@@ -48,6 +49,12 @@
           <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'appointments' || $this->uri->segment(1) == 'manage-appointments') ? 'active' : '' ?>" href="<?php echo base_url('appointments') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">alarm</i>
             Appointments
+          </a>
+        </div>
+        <div class="mdc-list-item mdc-drawer-item">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'rooms' || $this->uri->segment(1) == 'manage-rooms') ? 'active' : '' ?>" href="<?php echo base_url('rooms') ?>">
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">hotel</i>
+            Rooms
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
