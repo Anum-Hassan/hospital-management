@@ -628,14 +628,85 @@ class Hospital extends CI_Controller
 
         redirect('schedule');
     }
-
     // End Schedule
+
+    // Start Apointment
     public function appt()
     {
-        $this->load->view('appointments');
+        $data['appointments'] = $this->Hospital_Model->getAppt();
+        $data['doctor_details'] = $this->Hospital_Model->getDoctors();
+        $this->load->view('appointments', $data);
     }
     public function addAppt()
     {
-        $this->load->view('manage-appointments');
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $this->form_validation->set_rules('patient_id', 'Patient', 'required|trim|numeric');
+            $this->form_validation->set_rules('doctor_id', 'Doctor', 'required|trim|numeric');
+            $this->form_validation->set_rules('department_id', 'Department', 'required|trim|numeric');
+            $this->form_validation->set_rules('appointment_date', 'Appointment Time', 'trim|required');
+            $this->form_validation->set_rules('appointment_time', 'End Time', 'trim|required');
+            $this->form_validation->set_rules('status', 'Status', 'required|trim|in_list[pending,Approved,Canceled,Completed]');
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->session->set_flashdata('error', validation_errors());
+                redirect('manage-appointments');
+            } else {
+                $data = [
+                    'patient_id' => $this->input->post('patient_id'),
+                    'doctor_id' => $this->input->post('doctor_id'),
+                    'department_id' => $this->input->post('department_id'),
+                    'appointment_date' => $this->input->post('appointment_date'),
+                    'appointment_time' => $this->input->post('appointment_time'),
+                    'status' => $this->input->post('status')
+                ];
+
+                if ($this->Hospital_Model->insertAppt($data)) {
+                    $this->session->set_flashdata('success', 'Appointment added successfully!');
+                    redirect('appointments');
+                } else {
+                    $this->session->set_flashdata('error', 'Failed to add appointment record!');
+                    redirect('manage-appointments');
+                }
+            }
+        } else {
+            $data['doctors'] = $this->Hospital_Model->getActiveDoctors();
+            $data['patients'] = $this->Hospital_Model->getPatients();
+            $data['departments'] = $this->Hospital_Model->getDepartments();
+            $this->load->view('manage-appointments', $data);
+        }
     }
+    
+    public function editAppt($id)
+    {
+        $data['appointment'] = $this->Hospital_Model->getApptById($id);
+        if (empty($data['appointment'])) {
+            show_404();
+        }
+        $data['patients'] = $this->Hospital_Model->getPatients();
+        $data['doctors'] = $this->Hospital_Model->getActiveDoctors();
+        $data['departments'] = $this->Hospital_Model->getDepartments();
+        $this->load->view('manage-appointments', $data);
+    }
+
+
+    public function updateAppt($id)
+    {
+        $data = [
+            'patient_id' => $this->input->post('patient_id'),
+            'doctor_id' => $this->input->post('doctor_id'),
+            'department_id' => $this->input->post('department_id'),
+            'appointment_date' => $this->input->post('appointment_date'),
+            'appointment_time' => $this->input->post('appointment_time'),
+            'status' => $this->input->post('status'),
+        ];
+
+        if ($this->Hospital_Model->updateAppt($id, $data)) {
+            $this->session->set_flashdata('success', 'Appointment information updated successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to update Appointment information.');
+        }
+
+        redirect('appointments');
+    }
+    // End Appointment
 }

@@ -70,17 +70,18 @@ $route['manage-appointments'] = 'hospital/addAppt';
 
 $route['manage-medical-history/(:num)'] = 'Hospital/managePatientHistory/$1';
 
-$route['doctor/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
-$route['staff/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
-$route['patient/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
-$route['department/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
-$route['appointment/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
+// $route['doctor/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
+// $route['staff/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
+// $route['patient/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
+// $route['department/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
+// $route['appointment/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
 
 $route['manage-doctors/(:num)'] = 'Hospital/editDoctor/$1';
 $route['manage-staff/(:num)'] = 'Hospital/editStaff/$1';
 $route['manage-patients/(:num)'] = 'Hospital/editPatient/$1';
 $route['manage-departments/(:num)'] = 'Hospital/editDepart/$1';
 $route['manage-schedule/(:num)'] = 'Hospital/editSchedule/$1';
+$route['manage-appointments/(:num)'] = 'Hospital/editAppt/$1';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

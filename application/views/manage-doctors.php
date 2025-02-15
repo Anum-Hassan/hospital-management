@@ -33,7 +33,7 @@
 
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                           <div class="mdc-text-field mdc-text-field--outlined" onclick="document.getElementById('file-upload-input').click()">
-                            <input class="mdc-text-field__input" id="file-name-display" type="text" readonly placeholder="Upload Image" value="<?php echo isset($doctor) ? $doctor->image : ''; ?>" required>
+                            <input class="mdc-text-field__input" id="file-name-display" type="text" readonly placeholder="Upload Image" value="<?php echo isset($doctor) ? $doctor->image : ''; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                               <div class="mdc-notched-outline__leading"></div>
                               <div class="mdc-notched-outline__notch">
@@ -178,6 +178,15 @@
     </div>
   </div>
   <?php $this->load->view('inc/bottom'); ?>
+  <script>
+    function updateFileName() {
+      const fileInput = document.getElementById('file-upload-input');
+      const fileNameDisplay = document.getElementById('file-name-display');
+      if (fileInput.files.length > 0) {
+        fileNameDisplay.value = fileInput.files[0].name;
+      }
+    }
+  </script>
 </body>
 
 </html>
