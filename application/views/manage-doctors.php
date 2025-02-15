@@ -3,13 +3,9 @@
 <body>
   <script src="<?php echo base_url('assets/js/preloader.js'); ?>"></script>
   <div class="body-wrapper">
-    <!-- partial:partials/_sidebar -->
     <?php $this->load->view('inc/sidebar'); ?>
-    <!-- partial -->
     <div class="main-wrapper mdc-drawer-app-content">
-      <!-- partial:partials/_navbar.html -->
       <?php $this->load->view('inc/navbar'); ?>
-      <!-- partial -->
       <div class="page-wrapper mdc-toolbar-fixed-adjust">
         <main class="content-wrapper">
           <div class="col-lg-12 p-4">
@@ -24,11 +20,11 @@
                       <div class="mdc-layout-grid__inner">
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                           <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="text-field-hero-input" name="name" required value="<?php echo isset($doctor) ? $doctor->name : ''; ?>">
-                            <div class="mdc-notched-outline mdc-notched-outline--upgraded">
+                            <input class="mdc-text-field__input" name="name" required value="<?php echo isset($doctor) ? $doctor->name : ''; ?>">
+                            <div class="mdc-notched-outline">
                               <div class="mdc-notched-outline__leading"></div>
                               <div class="mdc-notched-outline__notch">
-                                <label for="text-field-hero-input" class="mdc-floating-label">Name</label>
+                                <label class="mdc-floating-label">Name</label>
                               </div>
                               <div class="mdc-notched-outline__trailing"></div>
                             </div>
@@ -37,7 +33,7 @@
 
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                           <div class="mdc-text-field mdc-text-field--outlined" onclick="document.getElementById('file-upload-input').click()">
-                            <input class="mdc-text-field__input" id="file-name-display" type="text" readonly placeholder="Upload Image" value="<?php echo isset($doctor) ? $doctor->image : ''; ?>">
+                            <input class="mdc-text-field__input" id="file-name-display" type="text" readonly placeholder="Upload Image" value="<?php echo isset($doctor) ? $doctor->image : ''; ?>" required>
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                               <div class="mdc-notched-outline__leading"></div>
                               <div class="mdc-notched-outline__notch">
@@ -49,24 +45,68 @@
                           <input type="file" id="file-upload-input" name="image" style="display: none;" onchange="updateFileName()">
                         </div>
 
-                        <!-- Specialization Field -->
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                           <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="text-field-hero-input" name="specialization" required value="<?php echo isset($doctor) ? $doctor->specialization : ''; ?>">
-                            <div class="mdc-notched-outline mdc-notched-outline--upgraded">
+                            <input class="mdc-text-field__input" name="qualification" required value="<?php echo isset($doctor) ? $doctor->qualification : ''; ?>">
+                            <div class="mdc-notched-outline">
                               <div class="mdc-notched-outline__leading"></div>
                               <div class="mdc-notched-outline__notch">
-                                <label for="text-field-hero-input" class="mdc-floating-label">Specialization</label>
+                                <label class="mdc-floating-label">Qualification</label>
                               </div>
                               <div class="mdc-notched-outline__trailing"></div>
                             </div>
                           </div>
                         </div>
 
-                        <!-- Keep other fields intact with dynamic values -->
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                           <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="text-field-hero-input" name="consultation_fee" required value="<?php echo isset($doctor) ? $doctor->consultation_fee : ''; ?>">
+                            <input class="mdc-text-field__input" name="specialization" required value="<?php echo isset($doctor) ? $doctor->specialization : ''; ?>">
+                            <div class="mdc-notched-outline">
+                              <div class="mdc-notched-outline__leading"></div>
+                              <div class="mdc-notched-outline__notch">
+                                <label class="mdc-floating-label">Specialization</label>
+                              </div>
+                              <div class="mdc-notched-outline__trailing"></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                          <div class="mdc-text-field mdc-text-field--outlined">
+                            <select class="mdc-text-field__input" name="department_id" required>
+                              <option value="" disabled></option>
+                              <?php foreach ($departments as $dept): ?>
+                                <option value="<?php echo $dept->id; ?>" <?php echo isset($doctor) && $doctor->department_id == $dept->id ? 'selected' : ''; ?>>
+                                  <?php echo $dept->name; ?>
+                                </option>
+                              <?php endforeach; ?>
+                            </select>
+                            <div class="mdc-notched-outline">
+                              <div class="mdc-notched-outline__leading"></div>
+                              <div class="mdc-notched-outline__notch">
+                                <label class="mdc-floating-label">Department</label>
+                              </div>
+                              <div class="mdc-notched-outline__trailing"></div>
+                            </div>
+                          </div>
+                          </div>
+
+                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                          <div class="mdc-text-field mdc-text-field--outlined">
+                            <input class="mdc-text-field__input" name="experience" type="number" required value="<?php echo isset($doctor) ? $doctor->experience : ''; ?>">
+                            <div class="mdc-notched-outline">
+                              <div class="mdc-notched-outline__leading"></div>
+                              <div class="mdc-notched-outline__notch">
+                                <label class="mdc-floating-label">Experience (Years)</label>
+                              </div>
+                              <div class="mdc-notched-outline__trailing"></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                          <div class="mdc-text-field mdc-text-field--outlined">
+                            <input class="mdc-text-field__input" type="number" id="decimal" name="consultation_fee" required value="<?php echo isset($doctor) ? $doctor->consultation_fee : ''; ?>">
                             <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                               <div class="mdc-notched-outline__leading"></div>
                               <div class="mdc-notched-outline__notch">
@@ -77,13 +117,14 @@
                           </div>
                         </div>
 
+
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                           <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="text-field-hero-input" name="phone" required value="<?php echo isset($doctor) ? $doctor->phone : ''; ?>">
-                            <div class="mdc-notched-outline mdc-notched-outline--upgraded">
+                            <input class="mdc-text-field__input" name="email" type="email" required value="<?php echo isset($doctor) ? $doctor->email : ''; ?>">
+                            <div class="mdc-notched-outline">
                               <div class="mdc-notched-outline__leading"></div>
                               <div class="mdc-notched-outline__notch">
-                                <label for="text-field-hero-input" class="mdc-floating-label">Phone</label>
+                                <label class="mdc-floating-label">Email</label>
                               </div>
                               <div class="mdc-notched-outline__trailing"></div>
                             </div>
@@ -92,11 +133,24 @@
 
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                           <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="text-field-hero-input" name="address" required value="<?php echo isset($doctor) ? $doctor->address : ''; ?>">
-                            <div class="mdc-notched-outline mdc-notched-outline--upgraded">
+                            <input class="mdc-text-field__input" name="phone" type="text" required value="<?php echo isset($doctor) ? $doctor->phone : ''; ?>">
+                            <div class="mdc-notched-outline">
                               <div class="mdc-notched-outline__leading"></div>
                               <div class="mdc-notched-outline__notch">
-                                <label for="text-field-hero-input" class="mdc-floating-label">Address</label>
+                                <label class="mdc-floating-label">Phone</label>
+                              </div>
+                              <div class="mdc-notched-outline__trailing"></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                          <div class="mdc-text-field mdc-text-field--outlined">
+                            <input class="mdc-text-field__input" name="address" required value="<?php echo isset($doctor) ? $doctor->address : ''; ?>">
+                            <div class="mdc-notched-outline">
+                              <div class="mdc-notched-outline__leading"></div>
+                              <div class="mdc-notched-outline__notch">
+                                <label class="mdc-floating-label">Address</label>
                               </div>
                               <div class="mdc-notched-outline__trailing"></div>
                             </div>
@@ -109,36 +163,21 @@
                       <?php echo isset($doctor) ? 'Update Record' : 'Add Record'; ?>
                     </button>
                   </form>
-
+                  <?php if ($this->session->flashdata('error')): ?>
+                    <div class="alert alert-danger msg">
+                      <?php echo $this->session->flashdata('error'); ?>
+                    </div>
+                  <?php endif; ?>
                 </div>
               </div>
             </div>
           </div>
         </main>
-
         <?php $this->load->view('inc/footer'); ?>
-
       </div>
     </div>
   </div>
-
-
-  <?php if ($this->session->flashdata('error')): ?>
-    <div class="alert alert-danger">
-      <?php echo $this->session->flashdata('error'); ?>
-    </div>
-  <?php endif; ?>
-
   <?php $this->load->view('inc/bottom'); ?>
-  <script>
-    function updateFileName() {
-      const fileInput = document.getElementById('file-upload-input');
-      const fileNameDisplay = document.getElementById('file-name-display');
-      if (fileInput.files.length > 0) {
-        fileNameDisplay.value = fileInput.files[0].name;
-      }
-    }
-  </script>
 </body>
 
 </html>

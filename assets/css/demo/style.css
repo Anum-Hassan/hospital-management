@@ -23162,8 +23162,10 @@ footer .vertical-divider {
   }
 }
 #msg{
-  width: 40%;
-  right: 0%;
-  z-index: 10000;
+    width: 30%;
+    left: 70%;
+    z-index: 1000;
+    top: 57px;
+    position: fixed;
 }
 /*# sourceMappingURL=../maps/demo/style.css.map */

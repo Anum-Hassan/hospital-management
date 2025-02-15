@@ -73,7 +73,7 @@
                           <div class="mdc-text-field mdc-text-field--outlined  <?php echo isset($patient) && !empty($patient->doctor_id) ? 'mdc-text-field' : ''; ?>">
                             <select class="mdc-text-field__input" name="doctor_id">
                               <?php if (!isset($patient)): ?>
-                                <option value="" disabled selected></option> <!-- Show empty placeholder for new record -->
+                                <option value="" disabled selected></option>
                               <?php endif; ?>
                               <?php foreach ($doctors as $doctor): ?>
                                 <option value="<?php echo $doctor->id; ?>" <?php echo isset($patient) && $patient->doctor_id == $doctor->id ? 'selected' : ''; ?>>

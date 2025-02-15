@@ -33,19 +33,28 @@
                           <div class="mdc-text-field mdc-text-field--outlined">
                             <select class="mdc-text-field__input" name="name" required>
                               <option value="" disabled <?php echo !isset($department) || empty($department->name) ? 'selected' : ''; ?>></option>
-                              <option value="General Medicine" <?php echo (isset($department) && $department->name == 'General Medicine') ? 'selected' : ''; ?>>General Medicine</option>
-                              <option value="Pediatrics" <?php echo (isset($department) && $department->name == 'Pediatrics') ? 'selected' : ''; ?>>Pediatrics</option>
+                              <option value="Emergency (ER)" <?php echo (isset($department) && $department->name == 'Emergency (ER)') ? 'selected' : ''; ?>>Emergency (ER)</option>
+                              <option value="Surgery" <?php echo (isset($department) && $department->name == 'Surgery') ? 'selected' : ''; ?>>Surgery</option>
                               <option value="Cardiology" <?php echo (isset($department) && $department->name == 'Cardiology') ? 'selected' : ''; ?>>Cardiology</option>
                               <option value="Neurology" <?php echo (isset($department) && $department->name == 'Neurology') ? 'selected' : ''; ?>>Neurology</option>
-                              <option value="Dermatology" <?php echo (isset($department) && $department->name == 'Dermatology') ? 'selected' : ''; ?>>Dermatology</option>
                               <option value="Orthopedics" <?php echo (isset($department) && $department->name == 'Orthopedics') ? 'selected' : ''; ?>>Orthopedics</option>
+                              <option value="Pediatrics" <?php echo (isset($department) && $department->name == 'Pediatrics') ? 'selected' : ''; ?>>Pediatrics</option>
+                              <option value="Gynecology & Obstetrics" <?php echo (isset($department) && $department->name == 'Gynecology & Obstetrics') ? 'selected' : ''; ?>>Gynecology & Obstetrics</option>
                               <option value="Oncology" <?php echo (isset($department) && $department->name == 'Oncology') ? 'selected' : ''; ?>>Oncology</option>
                               <option value="Radiology" <?php echo (isset($department) && $department->name == 'Radiology') ? 'selected' : ''; ?>>Radiology</option>
-                              <option value="Gynecology" <?php echo (isset($department) && $department->name == 'Gynecology') ? 'selected' : ''; ?>>Gynecology</option>
-                              <option value="Psychiatry" <?php echo (isset($department) && $department->name == 'Psychiatry') ? 'selected' : ''; ?>>Psychiatry</option>
                               <option value="Anesthesiology" <?php echo (isset($department) && $department->name == 'Anesthesiology') ? 'selected' : ''; ?>>Anesthesiology</option>
-                              <option value="Emergency Medicine" <?php echo (isset($department) && $department->name == 'Emergency Medicine') ? 'selected' : ''; ?>>Emergency Medicine</option>
                               <option value="Urology" <?php echo (isset($department) && $department->name == 'Urology') ? 'selected' : ''; ?>>Urology</option>
+                              <option value="Nephrology" <?php echo (isset($department) && $department->name == 'Nephrology') ? 'selected' : ''; ?>>Nephrology</option>
+                              <option value="Gastroenterology" <?php echo (isset($department) && $department->name == 'Gastroenterology') ? 'selected' : ''; ?>>Gastroenterology</option>
+                              <option value="Endocrinology" <?php echo (isset($department) && $department->name == 'Endocrinology') ? 'selected' : ''; ?>>Endocrinology</option>
+                              <option value="Pulmonology" <?php echo (isset($department) && $department->name == 'Pulmonology') ? 'selected' : ''; ?>>Pulmonology</option>
+                              <option value="Psychiatry" <?php echo (isset($department) && $department->name == 'Psychiatry') ? 'selected' : ''; ?>>Psychiatry</option>
+                              <option value="Dermatology" <?php echo (isset($department) && $department->name == 'Dermatology') ? 'selected' : ''; ?>>Dermatology</option>
+                              <option value="Ophthalmology" <?php echo (isset($department) && $department->name == 'Ophthalmology') ? 'selected' : ''; ?>>Ophthalmology</option>
+                              <option value="ENT (Ear, Nose, Throat)" <?php echo (isset($department) && $department->name == 'ENT (Ear, Nose, Throat)') ? 'selected' : ''; ?>>ENT (Ear, Nose, Throat)</option>
+                              <option value="Pathology" <?php echo (isset($department) && $department->name == 'Pathology') ? 'selected' : ''; ?>>Pathology</option>
+                              <option value="Physiotherapy & Rehabilitation" <?php echo (isset($department) && $department->name == 'Physiotherapy & Rehabilitation') ? 'selected' : ''; ?>>Physiotherapy & Rehabilitation</option>
+                              <option value="ICU (Intensive Care Unit)" <?php echo (isset($department) && $department->name == 'ICU (Intensive Care Unit)') ? 'selected' : ''; ?>>ICU (Intensive Care Unit)</option>
                             </select>
                             <div class="mdc-notched-outline">
                               <div class="mdc-notched-outline__leading"></div>
@@ -74,10 +83,8 @@
                       </div>
                     </div>
 
-
-
                     <button class="mdc-button mdc-button--raised mdc-ripple-upgraded mt-4" type="submit">
-                      <?php echo isset($depart) ? 'Update Record' : 'Add Record'; ?>
+                      <?php echo isset($department) ? 'Update Record' : 'Add Record'; ?>
                     </button>
                   </form>
 

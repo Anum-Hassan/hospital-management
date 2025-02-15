@@ -79,7 +79,7 @@
                               <a href="<?php echo base_url('manage-patients/' . $patient->id); ?>" class="btn btn-sm btn-outline-primary">
                                 <span class="fa-regular fa-pen-to-square"></span>
                               </a>
-                              <a href="<?php echo base_url('Hospital/deletePatient/' . $patient->id); ?>"
+                              <a href="<?php echo base_url('Hospital/deleteRecord/patients/' . $patient->id); ?>"
                                 class="btn btn-sm btn-outline-danger"
                                 onclick="return confirm('Are you sure you want to delete this patient?');">
                                 <span class="fa-solid fa-trash"></span>
