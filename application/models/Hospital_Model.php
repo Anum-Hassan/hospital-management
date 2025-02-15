@@ -25,6 +25,8 @@ class Hospital_Model extends CI_Model
         }
         return false;
     }
+
+  
     // Delete Record for all modules
     public function deleteRecord($table, $id)
     {

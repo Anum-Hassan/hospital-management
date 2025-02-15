@@ -15,47 +15,48 @@
   <!-- End layout styles -->
   <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon.png'); ?>" />
 
- <style>
-  /* Ensure everything is aligned correctly */
-  .mdc-layout-grid__cell {
-    display: flex;
-    flex-direction: column;
-  }
+  <style>
+    /* Ensure everything is aligned correctly */
+    .mdc-layout-grid__cell {
+      display: flex;
+      flex-direction: column;
+    }
 
-  .mdc-text-field {
-    width: 100%;
-  }
+    .mdc-text-field {
+      width: 100%;
+    }
 
-  .custom-file-upload {
-    margin-top: 10px;
-    display: block; /* Ensures the button is below the input */
-  }
+    .custom-file-upload {
+      margin-top: 10px;
+      display: block;
+      /* Ensures the button is below the input */
+    }
 
-  .btn-upload {
-    display: inline-block;
-    background-color: #6200ea;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-  }
+    .btn-upload {
+      display: inline-block;
+      background-color: #6200ea;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+    }
 
-  .file-input {
-    display: none;
-  }
+    .file-input {
+      display: none;
+    }
 
-  #imagePreview {
-    margin-top: 10px;
-    text-align: center;
-  }
+    #imagePreview {
+      margin-top: 10px;
+      text-align: center;
+    }
 
-  #imagePreviewImg {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-  }
-</style>
+    #imagePreviewImg {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+    }
+  </style>
 </head>
 
 <body>
@@ -70,14 +71,14 @@
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"></div>
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-6-tablet">
                   <div class="mdc-card">
-                  <?php if ($this->session->flashdata('success')): ?>
-            <div class="alert alert-success"><?= $this->session->flashdata('success'); ?></div>
-        <?php elseif ($this->session->flashdata('error')): ?>
-            <div class="alert alert-danger"><?= $this->session->flashdata('error'); ?></div>
-        <?php endif; ?>
+                    <?php if ($this->session->flashdata('success')): ?>
+                      <div class="alert alert-success"><?= $this->session->flashdata('success'); ?></div>
+                    <?php elseif ($this->session->flashdata('error')): ?>
+                      <div class="alert alert-danger"><?= $this->session->flashdata('error'); ?></div>
+                    <?php endif; ?>
 
-        <?= validation_errors('<div class="alert alert-danger">', '</div>'); ?>
-        <form action="<?= base_url('hospital/register'); ?>" method="post" enctype="multipart/form-data">
+                    <?= validation_errors('<div class="alert alert-danger">', '</div>'); ?>
+                    <form action="<?= base_url('hospital/register'); ?>" method="post" enctype="multipart/form-data">
                       <div class="mdc-layout-grid">
                         <div class="mdc-layout-grid__inner">
                           <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
@@ -96,7 +97,7 @@
                           </div>
                           <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
                             <div class="mdc-text-field w-100">
-                              <input type="password" class="mdc-text-field__input" name="password"  required>
+                              <input type="password" class="mdc-text-field__input" name="password" required>
                               <div class="mdc-line-ripple"></div>
                               <label class="mdc-floating-label">Password</label>
                             </div>
@@ -136,8 +137,8 @@
                           </div>
                         </div>
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop d-flex align-items-center">
-  <p>Already have an account? <a href="<?= base_url('hospital/register'); ?>">login</a></p>
-</div>
+                          <p>Already have an account? <a href="<?= base_url('hospital/login'); ?>">login</a></p>
+                        </div>
 
                       </div>
                       <?= form_close() ?>
