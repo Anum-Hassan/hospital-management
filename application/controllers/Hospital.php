@@ -110,21 +110,13 @@ class Hospital extends CI_Controller
             }
         }
     }
-<<<<<<< HEAD
     public function logout() {
         // Destroy session
-=======
-
-    public function logout()
-    {
-        // Destroy session data
->>>>>>> a92077c14c48bce7c1260012a3cd386b7f149a36
         $this->session->unset_userdata('admin_logged_in');
         $this->session->unset_userdata('admin_id');
         $this->session->unset_userdata('username');
         $this->session->unset_userdata('email');
         $this->session->unset_userdata('role');
-<<<<<<< HEAD
         
         // Flash message for logout
         $this->session->set_flashdata('success', 'You have been logged out successfully.');
@@ -133,17 +125,6 @@ class Hospital extends CI_Controller
         redirect('hospital/login');
     }
     
-=======
-
-        // Set a flash message
-        $this->session->set_flashdata('success', 'You have been logged out successfully.');
-
-        // Redirect to login page
-        redirect($route['default_controller']);
-    }
-
-
->>>>>>> a92077c14c48bce7c1260012a3cd386b7f149a36
     // Dashboard function
     public function dashboard()
     {
