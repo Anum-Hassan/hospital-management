@@ -303,13 +303,46 @@ class Hospital_Model extends CI_Model
         return $this->db->update('rooms', $data);
     }
 
-    // public function getNurses()
-    // {
-    //     return $this->db->get_where('staff', ['role' => 'nurse'])->result();
-    // }
     public function getActiveNurses()
     {
         return $this->db->get_where('staff', ['status' => 'active', 'role' => 'nurse'])->result();
     }
     // End Rooms
+
+    // Start Prescriptions
+    public function getAllPres() {
+        $this->db->select('
+            prescriptions.*, patients.name AS patient_name, doctors.name AS doctor_name
+        ');
+        $this->db->from('prescriptions');
+        $this->db->join('patients', 'patients.id = prescriptions.patient_id', 'left');
+        $this->db->join('doctors', 'doctors.id = prescriptions.doctor_id', 'left');
+        
+        return $this->db->get()->result_array();
+    }
+    
+
+    public function insertPres($data) {
+        return $this->db->insert('prescriptions', $data);
+    }
+
+    public function getPres($id) {
+        $this->db->select('
+            prescriptions.*, 
+            patients.name AS patient_name, 
+            doctors.name AS doctor_name
+        ');
+        $this->db->from('prescriptions');
+        $this->db->join('patients', 'patients.id = prescriptions.patient_id', 'left');
+        $this->db->join('doctors', 'doctors.id = prescriptions.doctor_id', 'left');
+        $this->db->where('prescriptions.id', $id);
+        return $this->db->get()->row_array(); 
+    }
+    
+
+    public function updatePres($id, $data) {
+        $this->db->where('id', $id);
+        return $this->db->update('prescriptions', $data);
+    }
+    // End Prescriptions
 }

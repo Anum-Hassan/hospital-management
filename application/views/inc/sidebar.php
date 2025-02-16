@@ -58,9 +58,21 @@
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
-          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'laboratary' || $this->uri->segment(1) == 'manage-laboratary') ? 'active' : '' ?>" href="<?php echo base_url('laboratary') ?>">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'prescriptions' || $this->uri->segment(1) == 'manage-prescriptions') ? 'active' : '' ?>" href="<?php echo base_url('prescriptions') ?>">
             <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">local_hospital</i>
-            Laboratary
+            Prescriptions
+          </a>
+        </div>
+        <div class="mdc-list-item mdc-drawer-item">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'users' || $this->uri->segment(1) == 'manage-users') ? 'active' : '' ?>" href="<?php echo base_url('users') ?>">
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">local_hospital</i>
+            Users
+          </a>
+        </div>
+        <div class="mdc-list-item mdc-drawer-item">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'contacts') ? 'active' : '' ?>" href="<?php echo base_url('contacts') ?>">
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">local_hospital</i>
+            Contacts
           </a>
         </div>
       </nav>

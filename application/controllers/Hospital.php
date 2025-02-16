@@ -7,6 +7,7 @@ class Hospital extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Hospital_Model');
+        // $this->load->library('pdf'); // Load PDF library
         $this->load->library('form_validation');
         $this->load->library('session');
         $this->load->helper('url');
@@ -21,7 +22,7 @@ class Hospital extends CI_Controller
             'image'    => $this->session->userdata('image')
         );
 
-        $this->load->vars($user_data); 
+        $this->load->vars($user_data);
     }
 
     private function is_logged_in()
@@ -815,6 +816,121 @@ class Hospital extends CI_Controller
 
         redirect('rooms');
     }
-
     // End Rooms
+
+    // Start Prescriptions
+    public function pres()
+    {
+        $data['prescriptions'] = $this->Hospital_Model->getAllPres();
+        $data['patients'] = $this->Hospital_Model->getPatients();
+        $data['doctors'] = $this->Hospital_Model->getActiveDoctors();
+        $this->load->view('prescriptions', $data);
+    }
+
+    public function addPres()
+    {
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $this->form_validation->set_rules('patient_id', 'Patient', 'required|numeric');
+            $this->form_validation->set_rules('doctor_id', 'Doctor', 'required|numeric');
+            $this->form_validation->set_rules('diagnosis', 'Diagnosis', 'required|trim');
+            $this->form_validation->set_rules('medications', 'Medications', 'required|trim');
+            $this->form_validation->set_rules('notes', 'Notes', 'trim');
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->session->set_flashdata('error', validation_errors());
+                redirect('manage-prescriptions');
+            } else {
+                $data = [
+                    'patient_id' => $this->input->post('patient_id'),
+                    'doctor_id' => $this->input->post('doctor_id'),
+                    'diagnosis' => $this->input->post('diagnosis'),
+                    'medications' => $this->input->post('medications'),
+                    'notes' => $this->input->post('notes')
+                ];
+
+                if ($this->Hospital_Model->insertPres($data)) {
+                    $this->session->set_flashdata('success', 'Prescription added successfully!');
+                    redirect('prescriptions');
+                } else {
+                    $this->session->set_flashdata('error', 'Failed to add prescription record!');
+                    redirect('manage-prescriptions');
+                }
+            }
+        } else {
+            $data['patients'] = $this->Hospital_Model->getPatients();
+            $data['doctors'] = $this->Hospital_Model->getActiveDoctors();
+            $this->load->view('manage-prescriptions', $data);
+        }
+    }
+
+    public function editPres($id)
+    {
+        $data['prescription'] = $this->Hospital_Model->getPres($id);
+
+        // Convert array to object if necessary
+        if (is_array($data['prescription'])) {
+            $data['prescription'] = (object) $data['prescription'];
+        }
+
+        if (empty($data['prescription'])) {
+            show_404();
+        }
+
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $this->form_validation->set_rules('patient_id', 'Patient', 'required|numeric');
+            $this->form_validation->set_rules('doctor_id', 'Doctor', 'required|numeric');
+            $this->form_validation->set_rules('diagnosis', 'Diagnosis', 'required|trim');
+            $this->form_validation->set_rules('medications', 'Medications', 'required|trim');
+            $this->form_validation->set_rules('notes', 'Notes', 'trim');
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->session->set_flashdata('error', validation_errors());
+                redirect('manage-prescriptions/' . $id);
+            } else {
+                $update_data = [
+                    'patient_id' => $this->input->post('patient_id'),
+                    'doctor_id' => $this->input->post('doctor_id'),
+                    'diagnosis' => $this->input->post('diagnosis'),
+                    'medications' => $this->input->post('medications'),
+                    'notes' => $this->input->post('notes')
+                ];
+
+                if ($this->Hospital_Model->updatePres($id, $update_data)) {
+                    $this->session->set_flashdata('success', 'Prescription updated successfully!');
+                } else {
+                    $this->session->set_flashdata('error', 'Failed to update prescription record!');
+                }
+
+                redirect('prescriptions');
+            }
+        }
+
+        $data['patients'] = $this->Hospital_Model->getPatients();
+        $data['doctors'] = $this->Hospital_Model->getActiveDoctors();
+        $this->load->view('manage-prescriptions', $data);
+    }
+
+
+    public function download_pdf($id)
+{
+    require_once APPPATH . 'vendor/autoload.php'; // Load MPDF
+
+    // Fetch prescription details with patient & doctor names
+    $data['prescription'] = $this->Hospital_Model->getPres($id);
+
+    if (empty($data['prescription'])) {
+        $this->session->set_flashdata('error', 'Invalid Prescription ID.');
+        redirect('prescriptions');
+    }
+
+    // Load view into a variable
+    $html = $this->load->view('prescription-pdf', $data, true);
+
+    // Generate PDF
+    $mpdf = new \Mpdf\Mpdf();
+    $mpdf->WriteHTML($html);
+    $mpdf->Output('prescription_' . $id . '.pdf', 'D'); // 'D' for download
+}
+
+    // End Prescription
 }
