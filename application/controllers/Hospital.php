@@ -125,11 +125,12 @@ class Hospital extends CI_Controller
         $this->session->unset_userdata('username');
         $this->session->unset_userdata('email');
         $this->session->unset_userdata('role');
-
+        
+        // Flash message for logout
         $this->session->set_flashdata('success', 'You have been logged out successfully.');
         redirect('login');
     }
-
+    
     // Dashboard function
     public function dashboard()
     {
