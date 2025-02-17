@@ -16,7 +16,7 @@
               </div>
             </div>
           </div>
-          <div class="mdc-top-app-bar__section mdc-top-app-barsection--align-end mdc-top-app-bar__section-right">
+          <div class="mdc-top-app-bar__section mdc-top-app-barsection--align-end mdc-top-app-bar__section-right" style="margin-left: 14%;">
             <div class="menu-button-container menu-profile d-none d-md-block">
               <button class="mdc-button mdc-menu-button">
                 <span class="d-flex align-items-center">

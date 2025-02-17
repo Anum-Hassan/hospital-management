@@ -58,29 +58,30 @@
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
+          <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'billing' || $this->uri->segment(1) == 'manage-billing') ? 'active' : '' ?>" href="<?php echo base_url('billing') ?>">
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">hotel</i>
+            Billing
+          </a>
+        </div>
+        <div class="mdc-list-item mdc-drawer-item">
           <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'prescriptions' || $this->uri->segment(1) == 'manage-prescriptions') ? 'active' : '' ?>" href="<?php echo base_url('prescriptions') ?>">
-            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">local_hospital</i>
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">assignment</i>
             Prescriptions
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
           <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'users' || $this->uri->segment(1) == 'manage-users') ? 'active' : '' ?>" href="<?php echo base_url('users') ?>">
-            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">local_hospital</i>
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">person_outline</i>
             Users
           </a>
         </div>
         <div class="mdc-list-item mdc-drawer-item">
           <a class="mdc-drawer-link <?php echo ($this->uri->segment(1) == 'contacts') ? 'active' : '' ?>" href="<?php echo base_url('contacts') ?>">
-            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">local_hospital</i>
+            <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">chat</i>
             Contacts
           </a>
         </div>
       </nav>
-    </div>
-    <div class="profile-actions">
-      <a href="javascript:;">Settings</a>
-      <span class="divider"></span>
-      <a href="javascript:;">Logout</a>
     </div>
   </div>
 </aside>

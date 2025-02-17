@@ -61,6 +61,7 @@ $route['schedule'] = 'hospital/schedule';
 $route['departments'] = 'hospital/depart';
 $route['appointments'] = 'hospital/appt';
 $route['rooms'] = 'hospital/room';
+$route['billing'] = 'hospital/bill';
 $route['prescriptions'] = 'hospital/pres';
 $route['users'] = 'hospital/users';
 $route['contacts'] = 'hospital/contacts';
@@ -73,9 +74,11 @@ $route['manage-schedule'] = 'hospital/addSchedule';
 $route['manage-departments'] = 'hospital/addDepart';
 $route['manage-appointments'] = 'hospital/addAppt';
 $route['manage-rooms'] = 'hospital/addRoom';
+$route['manage-billing'] = 'hospital/addBill';
 $route['manage-prescriptions'] = 'hospital/addPres';
 $route['manage-users'] = 'hospital/addUsers';
 $route['manage-contacts'] = 'hospital/addContacts';
+$route['generateBillingPdf/(:num)'] = 'Hospital/generateBillingPdf/$1';
 
 $route['manage-medical-history/(:num)'] = 'Hospital/managePatientHistory/$1';
 
@@ -92,6 +95,7 @@ $route['manage-departments/(:num)'] = 'Hospital/editDepart/$1';
 $route['manage-schedule/(:num)'] = 'Hospital/editSchedule/$1';
 $route['manage-appointments/(:num)'] = 'Hospital/editAppt/$1';
 $route['manage-rooms/(:num)'] = 'Hospital/editRoom/$1';
+$route['manage-billing/(:num)'] = 'Hospital/editBill/$1';
 $route['manage-prescriptions/(:num)'] = 'Hospital/editPres/$1';
 $route['manage-users/(:num)'] = 'Hospital/editUsers/$1';
 $route['manage-Contacts/(:num)'] = 'Hospital/editContacts/$1';

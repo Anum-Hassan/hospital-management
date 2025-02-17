@@ -60,7 +60,7 @@
                                                             <a href="<?php echo base_url('hospital/download_pdf/' . $pres['id']); ?>" class="btn btn-sm btn-outline-info">
                                                                 <i class="fa-solid fa-download"></i>
                                                             </a>
-                                                            <a href="<?php echo base_url('hospital/editPres/' . $pres['id']); ?>" class="btn btn-sm btn-outline-primary">
+                                                            <a href="<?php echo base_url('manage-prescriptions/' . $pres['id']); ?>" class="btn btn-sm btn-outline-primary">
                                                                 <i class="fa-regular fa-pen-to-square"></i>
                                                             </a>
                                                             <a href="<?php echo base_url('hospital/deleteRecord/prescriptions/' . $pres['id']); ?>"

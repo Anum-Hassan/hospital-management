@@ -59,6 +59,7 @@
                         <th>Room Type</th>
                         <th>Status</th>
                         <th>Capacity</th>
+                        <th>Fee Per Day</th>
                         <th>Assigned Doctor</th>
                         <th>Assigned Nurse</th>
                         <th>Floor Number</th>
@@ -75,21 +76,21 @@
                             <td class="room-type"><?php echo $room->room_type; ?></td>
                             <td class="room-status">
                               <?php
-                              $status = trim(strtolower($room->status)); // Normalize case & remove spaces
+                              $status = trim(strtolower($room->status)); 
                               $statusColor = '';
 
                               switch ($status) {
                                 case 'available':
-                                  $statusColor = 'background-color: #28a745; color: white;'; // Bright Green
+                                  $statusColor = 'background-color: #28a745; color: white;'; 
                                   break;
                                 case 'occupied':
-                                  $statusColor = 'background-color: #dc3545; color: white;'; // Deep Red
+                                  $statusColor = 'background-color: #dc3545; color: white;'; 
                                   break;
                                 case 'under maintenance':
-                                  $statusColor = 'background-color: #fd7e14; color: white;'; // Warm Orange
+                                  $statusColor = 'background-color: #fd7e14; color: white;'; 
                                   break;
                                 default:
-                                  $statusColor = 'background-color: #6c757d; color: white;'; // Cool Gray
+                                  $statusColor = 'background-color: #6c757d; color: white;';
                               }
                               ?>
                               <span class="badge" style="padding: 6px 12px; border-radius: 15px; font-weight: bold; text-transform: capitalize; <?php echo $statusColor; ?>">
@@ -98,6 +99,7 @@
                             </td>
 
                             <td><?php echo $room->capacity; ?></td>
+                            <td><?php echo $room->per_day_fee; ?></td>
                             <td><?php echo !empty($room->doctor_name) ? $room->doctor_name : 'Not Assigned'; ?></td>
                             <td><?php echo !empty($room->nurse_name) ? $room->nurse_name : 'Not Assigned'; ?></td>
                             <td><?php echo $room->floor_number; ?></td>
@@ -115,7 +117,7 @@
                         <?php endforeach; ?>
                       <?php else: ?>
                         <tr>
-                          <td colspan="9" class="text-center">No records found.</td>
+                          <td colspan="12" class="text-center">No records found.</td>
                         </tr>
                       <?php endif; ?>
                     </tbody>

@@ -61,6 +61,20 @@
                           </div>
                         </div>
 
+                        <!-- Per Day Fee -->
+                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                          <div class="mdc-text-field mdc-text-field--outlined">
+                            <input type="number" class="mdc-text-field__input" name="per_day_fee" required value="<?php echo isset($room) ? $room->per_day_fee : ''; ?>">
+                            <div class="mdc-notched-outline">
+                              <div class="mdc-notched-outline__leading"></div>
+                              <div class="mdc-notched-outline__notch">
+                                <label class="mdc-floating-label">Per Day Fee</label>
+                              </div>
+                              <div class="mdc-notched-outline__trailing"></div>
+                            </div>
+                          </div>
+                        </div>
+
                         <!-- Room Type Dropdown -->
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                           <div class="mdc-text-field mdc-text-field--outlined">
