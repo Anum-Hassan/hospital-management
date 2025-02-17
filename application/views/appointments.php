@@ -32,7 +32,7 @@
                       <option value="">Select Doctor</option>
                       <?php foreach ($doctor_details as $doctor): ?>
                         <?php if ($doctor->status == 1): ?>
-                          <option value="<?php echo $doctor->id; ?>"><?php echo $doctor->name; ?></option>
+                          <option value="<?php echo strtolower($doctor->name); ?>"><?php echo $doctor->name; ?></option>
                         <?php endif; ?>
                       <?php endforeach; ?>
                     </select>
@@ -73,7 +73,7 @@
                           <tr>
                             <td><?php echo $serial_number++; ?></td>
                             <td><?php echo $appointment->patient_name; ?></td>
-                            <td class="doctor-name"><?php echo $appointment->doctor_name; ?></td>
+                            <td class="doctor-name"><?php echo strtolower($appointment->doctor_name); ?></td>
                             <td><?php echo $appointment->department_name; ?></td>
                             <td><?php echo $appointment->appointment_date; ?></td>
                             <td><?php echo $appointment->appointment_time; ?></td>
@@ -114,8 +114,8 @@
                           </tr>
                         <?php endforeach; ?>
                       <?php else: ?>
-                        <tr>
-                          <td colspan="8" class="text-center">No records found.</td>
+                        <tr id="noRecordsRow">
+                          <td colspan="8" class="text-center font-weight-bold text-danger">No records found.</td>
                         </tr>
                       <?php endif; ?>
                     </tbody>
@@ -144,22 +144,37 @@
       let doctorFilter = document.getElementById('doctorFilter').value.toLowerCase();
       let statusFilter = document.getElementById('statusFilter').value.toLowerCase();
       let rows = document.querySelectorAll('#appointmentTable tr');
+      let noRecordsRow = document.getElementById('noRecordsRow');
 
+      let found = false;
       rows.forEach(row => {
-        let doctor = row.querySelector('.doctor-name') ? row.querySelector('.doctor-name').textContent.toLowerCase() : '';
-        let status = row.querySelector('.appointment-status') ? row.querySelector('.appointment-status').textContent.toLowerCase() : '';
-
-        if ((doctorFilter === '' || doctor.includes(doctorFilter)) && (statusFilter === '' || status.includes(statusFilter))) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
+        if (!row.id.includes('noRecordsRow')) {
+          let doctor = row.querySelector('.doctor-name')?.textContent.toLowerCase() || '';
+          let status = row.querySelector('.appointment-status')?.textContent.toLowerCase() || '';
+          if ((doctorFilter === '' || doctor.includes(doctorFilter)) &&
+            (statusFilter === '' || status.includes(statusFilter))) {
+            row.style.display = '';
+            found = true;
+          } else {
+            row.style.display = 'none';
+          }
         }
       });
 
-      document.getElementById('filterDropdown').style.display = 'none'; // Hide dropdown after selection
+      if (!found) {
+        if (!noRecordsRow) {
+          noRecordsRow = document.createElement('tr');
+          noRecordsRow.id = 'noRecordsRow';
+          noRecordsRow.innerHTML = '<td colspan="8" class="text-center font-weight-bold text-danger">No records found.</td>';
+          document.getElementById('appointmentTable').appendChild(noRecordsRow);
+        } else {
+          noRecordsRow.style.display = '';
+        }
+      } else if (noRecordsRow) {
+        noRecordsRow.style.display = 'none';
+      }
     }
   </script>
-
 </body>
 
 </html>

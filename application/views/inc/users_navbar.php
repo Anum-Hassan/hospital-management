@@ -25,5 +25,68 @@
         </div>
         <a href="<?= base_url('users/Appointments'); ?>" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block <?= ($this->uri->segment(2) == 'Appointments') ? 'active' : '' ?>">Appointment<i class="fa fa-arrow-right ms-3"></i></a>
     </div>
+    <?php if ($this->session->userdata('user_id')): ?>
+                <a href="<?= base_url('users/logout'); ?>" class="btn logout-btn ms-3">Logout</a>
+            <?php else: ?>
+                <a href="<?= base_url('users/login'); ?>" class="btn login-btn ms-3">Login</a>
+                <a href="<?= base_url('users/register'); ?>" class="btn register-btn ms-2">Register</a>
+            <?php endif; ?>
 </nav>
 <!-- Navbar End -->
+<style>
+/* Common Button Styling */
+.login-btn, .register-btn, .logout-btn {
+    display: inline-block;
+    padding: 5px 15px; /* Clean padding for clarity */
+    font-size: 14px;
+    font-weight: 700; /* Bold text for a premium feel */
+    text-transform: uppercase;
+    border-radius: 15px; /* Sharp rounded edges for a modern feel */
+    background-color: transparent;
+    color: #333; /* Neutral text color */
+    text-align: center;
+    letter-spacing: 1px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    position: relative; /* For glow effect positioning */
+    margin-right: 3px; /* Minimal space between buttons */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    line-height: 4; /* Ensure the text is vertically centered */
+}
+
+/* Login Button */
+.login-btn {
+    color: #007bff;
+}
+.login-btn:hover {
+    color: #fff;
+    background-color: #007bff;
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.6); /* Blue glowing effect */
+    transform: translateY(-3px); /* Slight upward movement on hover */
+}
+
+/* Register Button */
+.register-btn {
+    color: #28a745;
+}
+.register-btn:hover {
+    color: #fff;
+    background-color: #28a745;
+    box-shadow: 0 0 20px rgba(40, 167, 69, 0.6); /* Green glowing effect */
+    transform: translateY(-3px); /* Slight upward movement on hover */
+}
+
+/* Logout Button */
+.logout-btn {
+    color: #dc3545;
+}
+.logout-btn:hover {
+    color: #fff;
+    background-color: #dc3545;
+    box-shadow: 0 0 20px rgba(220, 53, 69, 0.6); /* Red glowing effect */
+    transform: translateY(-3px); /* Slight upward movement on hover */
+}
+
+
+
+</style>

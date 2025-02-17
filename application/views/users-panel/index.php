@@ -309,8 +309,8 @@
     </div>
     <!-- Team End -->
 
-
-    <!-- Appointment Start -->
+<!-- Appointment Start -->
+<?php if ($this->session->userdata('user_logged_in')): ?> 
     <div class="container-xxl py-5">
         <div class="container">
             <div class="row g-5">
@@ -385,6 +385,7 @@
             </div>
         </div>
     </div>
+    <?php endif;?>
     <!-- Appointment End -->
 
 

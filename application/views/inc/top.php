@@ -3,6 +3,7 @@ $pageName = basename($_SERVER["PHP_SELF"], '.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,7 @@ $pageName = basename($_SERVER["PHP_SELF"], '.php');
   <link rel="stylesheet" href="<?php echo base_url('assets/vendors/mdi/css/materialdesignicons.min.css'); ?>">
 
   <link rel="stylesheet" href="<?php echo base_url('assets/vendors/css/vendor.bundle.base.css'); ?>">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
   <!-- endinject -->
   <!-- Plugin css for this page -->
   <link rel="stylesheet" href="<?php echo base_url('assets/vendors/flag-icon-css/css/flag-icon.min.css'); ?>">
@@ -26,6 +27,8 @@ $pageName = basename($_SERVER["PHP_SELF"], '.php');
   <!-- Layout styles -->
   <link rel="stylesheet" href="<?php echo base_url('assets/css/demo/style.css'); ?>">
   <!-- End layout styles -->
-<!-- DataTables Bootstrap CSS -->
-<link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <!-- DataTables Bootstrap CSS -->
+  <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>

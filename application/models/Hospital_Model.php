@@ -26,7 +26,7 @@ class Hospital_Model extends CI_Model
         return false;
     }
 
-  
+
     // Delete Record for all modules
     public function deleteRecord($table, $id)
     {
@@ -54,6 +54,11 @@ class Hospital_Model extends CI_Model
         $this->db->update($table, ['status' => $new_status]);
     }
     // End Toggle Status
+
+    public function getActiveDoctors()
+    {
+        return $this->db->get_where('doctors', ['status' => 1])->result();
+    }
 
     // Start Doctor
     public function getDoctors()
@@ -136,11 +141,6 @@ class Hospital_Model extends CI_Model
         $this->db->join('rooms', 'patients.room_id = rooms.id', 'left');
         $this->db->join('users', 'patients.user_id = users.id', 'left');
         return $this->db->get()->result();
-    }
-
-    public function getActiveDoctors()
-    {
-        return $this->db->get_where('doctors', ['status' => 1])->result();
     }
 
     public function insertPatient($data)
@@ -271,4 +271,114 @@ class Hospital_Model extends CI_Model
         return $this->db->update('appointments', $data);
     }
     // End Appointment
+
+    // Start Rooms
+    public function getRooms()
+    {
+        $this->db->select('rooms.*, doctors.name AS doctor_name, staff.name AS nurse_name');
+        $this->db->from('rooms');
+        $this->db->join('doctors', 'rooms.assigned_doctor_id = doctors.id', 'left');
+        $this->db->join('staff', 'rooms.assigned_nurse_id = staff.id AND staff.role = "nurse"', 'left');
+        return $this->db->get()->result();
+    }
+
+    public function insertRoom($data)
+    {
+        return $this->db->insert('rooms', $data);
+    }
+
+    public function getRoomById($id)
+    {
+        $this->db->select('rooms.*, doctors.name AS doctor_name, staff.name AS nurse_name');
+        $this->db->from('rooms');
+        $this->db->join('doctors', 'rooms.assigned_doctor_id = doctors.id', 'left');
+        $this->db->join('staff', 'rooms.assigned_nurse_id = staff.id AND staff.role = "nurse"', 'left');
+        $this->db->where('rooms.id', $id);
+        return $this->db->get()->row();
+    }
+
+    public function updateRoom($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('rooms', $data);
+    }
+
+    public function getActiveNurses()
+    {
+        return $this->db->get_where('staff', ['status' => 'active', 'role' => 'nurse'])->result();
+    }
+    // End Rooms
+
+    // Start Prescriptions
+    public function getAllPres()
+    {
+        $this->db->select('
+            prescriptions.*, patients.name AS patient_name, doctors.name AS doctor_name
+        ');
+        $this->db->from('prescriptions');
+        $this->db->join('patients', 'patients.id = prescriptions.patient_id', 'left');
+        $this->db->join('doctors', 'doctors.id = prescriptions.doctor_id', 'left');
+
+        return $this->db->get()->result_array();
+    }
+
+
+    public function insertPres($data)
+    {
+        return $this->db->insert('prescriptions', $data);
+    }
+
+    public function getPres($id)
+    {
+        $this->db->select('
+            prescriptions.*, 
+            patients.name AS patient_name, 
+            doctors.name AS doctor_name
+        ');
+        $this->db->from('prescriptions');
+        $this->db->join('patients', 'patients.id = prescriptions.patient_id', 'left');
+        $this->db->join('doctors', 'doctors.id = prescriptions.doctor_id', 'left');
+        $this->db->where('prescriptions.id', $id);
+        return $this->db->get()->row_array();
+    }
+
+
+    public function updatePres($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('prescriptions', $data);
+    }
+    // End Prescriptions
+
+    // Start Billing
+    public function getAllBill()
+    {
+        $this->db->select('billing.*, patients.name AS patient_name, doctors.name AS doctor_name');
+        $this->db->from('billing');
+        $this->db->join('patients', 'billing.patient_id = patients.id', 'left');
+        $this->db->join('doctors', 'billing.doctor_id = doctors.id', 'left');
+        return $this->db->get()->result();
+    }
+
+    public function insertBill($data)
+    {
+        return $this->db->insert('billing', $data);
+    }
+
+    public function getBillById($id)
+    {
+        $this->db->select('billing.*, patients.name AS patient_name, doctors.name AS doctor_name');
+        $this->db->from('billing');
+        $this->db->join('patients', 'billing.patient_id = patients.id', 'left');
+        $this->db->join('doctors', 'billing.doctor_id = doctors.id', 'left');
+        $this->db->where('billing.id', $id);
+        return $this->db->get()->row();
+    }
+
+    public function updateBill($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('billing', $data);
+    }   
+    // End Billing
 }

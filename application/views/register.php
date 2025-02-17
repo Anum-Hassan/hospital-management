@@ -137,7 +137,7 @@
                           </div>
                         </div>
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop d-flex align-items-center">
-                          <p>Already have an account? <a href="<?= base_url('hospital/login'); ?>">login</a></p>
+                          <p>Already have an account? <a href="<?= base_url('login'); ?>">login</a></p>
                         </div>
 
                       </div>

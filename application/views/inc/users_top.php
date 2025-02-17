@@ -12,7 +12,7 @@ $pageName = basename($_SERVER["PHP_SELF"], '.php');
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link  rel="icon" href="<?= base_url('assets/users/img/favicon.ico'); ?>" >
+    <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon.png'); ?>" />
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
