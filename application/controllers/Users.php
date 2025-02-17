@@ -32,5 +32,9 @@ class Users extends CI_Controller
    {
         $this->load->view('users-panel/Contacts');
     }
+    public function ourDoctor()
+   {
+        $this->load->view('users-panel/ourDoctor');
+    }
    
 }

@@ -397,7 +397,7 @@
             </div>
             <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
                 <div class="testimonial-item text-center">
-                    <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="<?= base_url('assets/users/img/testimonial-1.jpg'); ?>" style="width: 100px; height: 100px;">
+                    <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="<?= base_url('assets/users/img/testimonial-1.jpg')?>" style="width: 100px; height: 100px;">
                     <div class="testimonial-text rounded text-center p-4">
                         <p>Clita clita tempor justo dolor ipsum amet kasd amet duo justo duo duo labore sed sed. Magna ut diam sit et amet stet eos sed clita erat magna elitr erat sit sit erat at rebum justo sea clita.</p>
                         <h5 class="mb-1">Patient Name</h5>
@@ -405,7 +405,7 @@
                     </div>
                 </div>
                 <div class="testimonial-item text-center">
-                    <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="<?= base_url('assets/users/img/testimonial-2.jpg'); ?>" style="width: 100px; height: 100px;">
+                    <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="<?= base_url('assets/users/img/testimonial-2.jpg')?>"style="width: 100px; height: 100px;">
                     <div class="testimonial-text rounded text-center p-4">
                         <p>Clita clita tempor justo dolor ipsum amet kasd amet duo justo duo duo labore sed sed. Magna ut diam sit et amet stet eos sed clita erat magna elitr erat sit sit erat at rebum justo sea clita.</p>
                         <h5 class="mb-1">Patient Name</h5>
@@ -413,7 +413,7 @@
                     </div>
                 </div>
                 <div class="testimonial-item text-center">
-                    <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="<?= base_url('assets/users/img/testimonial-3.jpg'); ?>" style="width: 100px; height: 100px;">
+                    <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="<?= base_url('assets/users/img/testimonial-3.jpg')?>" style="width: 100px; height: 100px;">
                     <div class="testimonial-text rounded text-center p-4">
                         <p>Clita clita tempor justo dolor ipsum amet kasd amet duo justo duo duo labore sed sed. Magna ut diam sit et amet stet eos sed clita erat magna elitr erat sit sit erat at rebum justo sea clita.</p>
                         <h5 class="mb-1">Patient Name</h5>
