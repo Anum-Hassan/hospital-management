@@ -73,7 +73,7 @@
                           <tr>
                             <td><?php echo $serial_number++; ?></td>
                             <td><?php echo $appointment->patient_name; ?></td>
-                            <td class="doctor-name"><?php echo strtolower($appointment->doctor_name); ?></td>
+                            <td class="doctor-name text-capitalize"><?php echo strtolower($appointment->doctor_name); ?></td>
                             <td><?php echo $appointment->department_name; ?></td>
                             <td><?php echo $appointment->appointment_date; ?></td>
                             <td><?php echo $appointment->appointment_time; ?></td>
@@ -102,9 +102,18 @@
                               </span>
                             </td>
                             <td>
+                              <?php if (strtolower($appointment->status) == 'canceled'): ?>
+                                <a href="<?php echo base_url('Hospital/editAppt/' . $appointment->id . '?action=reschedule'); ?>"
+                                  class="btn btn-sm btn-outline-warning">
+                                  <span class="fa-solid fa-calendar-plus"></span> Reschedule
+                                </a>
+
+                              <?php endif; ?>
+
                               <a href="<?php echo base_url('manage-appointments/' . $appointment->id); ?>" class="btn btn-sm btn-outline-primary">
                                 <span class="fa-regular fa-pen-to-square"></span>
                               </a>
+
                               <a href="<?php echo base_url('Hospital/deleteRecord/appointments/' . $appointment->id); ?>"
                                 class="btn btn-sm btn-outline-danger"
                                 onclick="return confirm('Are you sure you want to delete this appointment?');">

@@ -4,19 +4,8 @@
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">menu</button>
             <span class="mdc-top-app-bar__title">Welcome  <?php echo isset($username) ? $username : 'Guest'; ?>!</span>
-            <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon search-text-field d-none d-md-flex">
-              <i class="material-icons mdc-text-field__icon">search</i>
-              <input class="mdc-text-field__input" id="text-field-hero-input">
-              <div class="mdc-notched-outline">
-                <div class="mdc-notched-outline__leading"></div>
-                <div class="mdc-notched-outline__notch">
-                  <label for="text-field-hero-input" class="mdc-floating-label">Search..</label>
-                </div>
-                <div class="mdc-notched-outline__trailing"></div>
-              </div>
-            </div>
           </div>
-          <div class="mdc-top-app-bar__section mdc-top-app-barsection--align-end mdc-top-app-bar__section-right" style="margin-left: 14%;">
+          <div class="mdc-top-app-bar__section mdc-top-app-barsection--align-end mdc-top-app-bar__section-right" style="margin-left: 48%;">
             <div class="menu-button-container menu-profile d-none d-md-block">
               <button class="mdc-button mdc-menu-button">
                 <span class="d-flex align-items-center">

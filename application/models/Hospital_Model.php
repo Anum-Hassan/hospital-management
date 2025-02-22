@@ -60,6 +60,47 @@ class Hospital_Model extends CI_Model
         return $this->db->get_where('doctors', ['status' => 1])->result();
     }
 
+    public function getPatientCounts()
+    {
+        return [
+            'admitted' => $this->db->where('status', 'admitted')->count_all_results('patients'),
+            'discharged' => $this->db->where('status', 'discharged')->count_all_results('patients'),
+            'outpatients' => $this->db->where('status', 'outpatient')->count_all_results('patients'),
+        ];
+    }
+
+    public function get_rooms()
+    {
+        return $this->db->get('rooms')->result();
+    }
+
+    public function getPendingAppts()
+    {
+        return $this->db->where('status', 'pending')->get('appointments')->result();
+    }
+    public function getApprovedAppts()
+    {
+        return $this->db->where('status', 'approved')->get('appointments')->result();
+    }
+    public function getCompletedAppts()
+    {
+        return $this->db->where('status', 'completed')->get('appointments')->result();
+    }
+    public function getCanceledAppts()
+    {
+        return $this->db->where('status', 'canceled')->get('appointments')->result();
+    }
+
+    public function getTotalProfit()
+    {
+        return $this->db->select_sum('paid_amount')->get('billing')->row()->paid_amount;
+    }
+
+    public function getPendingAmount()
+    {
+        return $this->db->select_sum('pending_amount')->get('billing')->row()->pending_amount;
+    }
+
     // Start Doctor
     public function getDoctors()
     {
@@ -379,6 +420,31 @@ class Hospital_Model extends CI_Model
     {
         $this->db->where('id', $id);
         return $this->db->update('billing', $data);
-    }   
+    }
     // End Billing
+
+    // Start Users
+    public function getUsers()
+    {
+        $query = $this->db->get('users');
+        if (!$query) {
+            log_message('error', 'Database error: ' . $this->db->error()['message']);
+            return [];
+        }
+        return $query->result();
+    }
+    // End Users
+
+    // Start Contacts
+    public function getContacts()
+    {
+        $query = $this->db->get('contacts');
+        if (!$query) {
+            log_message('error', 'Database error: ' . $this->db->error()['message']);
+            return [];
+        }
+        return $query->result();
+    }
+    // End Contacts
+
 }

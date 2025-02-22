@@ -24,9 +24,6 @@
             <div class="card border-0">
               <div class="card-header border-bottom d-flex justify-content-between">
                 <h3 class="h4 mb-0" style="color: #2a1c5a;">Doctors</h3>
-                <a href="<?php echo base_url('manage-doctors'); ?>" class="btn btn-primary btn-sm">
-                  <i class="bi bi-plus"></i> New
-                </a>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -35,47 +32,24 @@
                       <tr>
                         <th>#</th>
                         <th>Name</th>
-                        <th>Specialization</th>
-                        <th>Department</th>
-                        <th>Experience</th>
-                        <th>Consultation Fee</th>
-                        <th>Availability</th>
-                        <th>Qualification</th>
-                        <th>Phone</th>
-                        <th>Address</th>
+                        <th>Email</th>
+                        <th>Password</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <?php if (!empty($doctor_details)): ?>
+                      <?php if (!empty($users)): ?>
                         <?php $serial_number = 1; ?>
-                        <?php foreach ($doctor_details as $doctor): ?>
+                        <?php foreach ($users as $user): ?>
                           <tr>
                             <td><?php echo $serial_number++; ?></td>
+                            <td><?php echo $user->name; ?></td>
+                            <td><?php echo $user->email; ?></td>
+                            <td><?php echo $user->password; ?></td>
                             <td>
-                              <img src="<?php echo base_url($doctor->image); ?>" alt="Doctor" class="rounded-circle" width="35px" height="35px" style="float: left;">
-                              <?php echo $doctor->name; ?>
-                            </td>
-                            <td><?php echo $doctor->specialization; ?></td>
-                            <td><?php echo $doctor->department_name; ?></td>
-                            <td><?php echo $doctor->experience; ?></td>
-                            <td><?php echo $doctor->consultation_fee; ?></td>
-                            <td>
-                              <a href="<?= base_url('hospital/toggle_status/doctors/' . $doctor->id); ?>"
-                                class="btn btn-sm <?= $doctor->status == 1 ? 'btn-outline-success' : 'btn-outline-danger'; ?>">
-                                <?= $doctor->status == 1 ? 'Available' : 'Unavailable'; ?>
-                              </a>
-                            </td>
-                            <td><?php echo $doctor->qualification; ?></td>
-                            <td><?php echo $doctor->phone; ?></td>
-                            <td><?php echo $doctor->address; ?></td>
-                            <td>
-                              <a href="<?php echo base_url('manage-doctors/' . $doctor->id); ?>" class="btn btn-sm btn-outline-primary">
-                                <span class="fa-regular fa-pen-to-square"></span>
-                              </a>
-                              <a href="<?php echo base_url('Hospital/deleteRecord/doctors/' . $doctor->id); ?>"
+                              <a href="<?php echo base_url('Hospital/deleteRecord/users/' . $user->id); ?>"
                                 class="btn btn-sm btn-outline-danger"
-                                onclick="return confirm('Are you sure you want to delete this doctor?');">
+                                onclick="return confirm('Are you sure you want to delete this User?');">
                                 <span class="fa-solid fa-trash"></span>
                               </a>
 

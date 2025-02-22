@@ -21,10 +21,30 @@
             <div class="card border-0">
               <div class="mdc-layout-grid__inner">
                 <div class="mdc-layout-grid__cell--span-12">
-                  <form class="mdc-card" method="post" action="<?php echo isset($appointment) ? base_url('Hospital/updateAppt/' . $appointment->id) : base_url('Hospital/addAppt'); ?>" enctype="multipart/form-data">
+                  <form class="mdc-card" method="post"
+                    action="<?php
+                            if (!isset($appointment)) {
+                              echo base_url('Hospital/addAppt');
+                            } elseif (isset($_GET['action']) && $_GET['action'] == 'reschedule') {
+                              echo base_url('Hospital/updateAppt/' . $appointment->id . '?action=reschedule');
+                            } else {
+                              echo base_url('Hospital/updateAppt/' . $appointment->id);
+                            }
+                            ?>"
+                    enctype="multipart/form-data">
+
                     <h4 class="card-title" style="color: #4b3a6e;">
-                      <?php echo isset($appointment) ? 'Update Appointment' : 'Add Appointment'; ?>
+                      <?php
+                      if (!isset($appointment)) {
+                        echo 'Add Appointment';
+                      } elseif (isset($_GET['action']) && $_GET['action'] == 'reschedule') {
+                        echo 'Reschedule Appointment';
+                      } else {
+                        echo 'Update Appointment';
+                      }
+                      ?>
                     </h4>
+
                     <div class="template-demo">
                       <div class="mdc-layout-grid__inner">
 
@@ -129,7 +149,7 @@
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                           <div class="mdc-text-field mdc-text-field--outlined">
                             <select class="mdc-text-field__input" id="status" name="status" required>
-                              <option value="Pending" <?php echo isset($appointment) && $appointment->status == 'Pending' ? 'selected' : ''; ?>>Pending</option>
+                              <option value="pending" <?php echo isset($appointment) && $appointment->status == 'pending' ? 'selected' : ''; ?>>Pending</option>
                               <option value="Approved" <?php echo isset($appointment) && $appointment->status == 'Approved' ? 'selected' : ''; ?>>Approved</option>
                               <option value="Canceled" <?php echo isset($appointment) && $appointment->status == 'Canceled' ? 'selected' : ''; ?>>Canceled</option>
                               <option value="Completed" <?php echo isset($appointment) && $appointment->status == 'Completed' ? 'selected' : ''; ?>>Completed</option>
@@ -148,7 +168,15 @@
                     </div>
 
                     <button class="mdc-button mdc-button--raised mdc-ripple-upgraded mt-4" type="submit">
-                      <?php echo isset($appointment) ? 'Update Record' : 'Add Record'; ?>
+                      <?php
+                      if (!isset($appointment)) {
+                        echo 'Add Record';
+                      } elseif (isset($_GET['action']) && $_GET['action'] == 'reschedule') {
+                        echo 'Reschedule Record';
+                      } else {
+                        echo 'Update Record';
+                      }
+                      ?>
                     </button>
                   </form>
 

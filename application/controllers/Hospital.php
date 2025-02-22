@@ -7,7 +7,6 @@ class Hospital extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Hospital_Model');
-        // $this->load->library('pdf'); // Load PDF library
         $this->load->library('form_validation');
         $this->load->library('session');
         $this->load->helper('url');
@@ -119,32 +118,40 @@ class Hospital extends CI_Controller
 
     public function logout()
     {
-        // Destroy session data
         $this->session->unset_userdata('admin_logged_in');
         $this->session->unset_userdata('admin_id');
         $this->session->unset_userdata('username');
         $this->session->unset_userdata('email');
         $this->session->unset_userdata('role');
-        
-        // Flash message for logout
+
         $this->session->set_flashdata('success', 'You have been logged out successfully.');
         redirect('login');
     }
-    
+
     // Dashboard function
     public function dashboard()
     {
-        if (!$this->session->userdata('admin_logged_in')) {
-            redirect('login');
-        }
-
         $user_data = array(
             'username' => $this->session->userdata('username'),
             'image'    => $this->session->userdata('image')
         );
 
-        $this->load->view('index', $user_data);
+        $this->load->model('Hospital_Model');
+
+        $data['doctors'] = $this->Hospital_Model->getActiveDoctors();
+        $data['patients'] = $this->Hospital_Model->getPatientCounts();
+        $data['rooms'] = $this->Hospital_Model->getRooms();
+        $data['pending_appointments'] = $this->Hospital_Model->getPendingAppts();
+        $data['approved_appointments'] = $this->Hospital_Model->getApprovedAppts();
+        $data['completed_appointments'] = $this->Hospital_Model->getCompletedAppts();
+        $data['canceled_appointments'] = $this->Hospital_Model->getCanceledAppts();
+        $data['total_profit'] = $this->Hospital_Model->getTotalProfit();
+        $data['pending_amount'] = $this->Hospital_Model->getPendingAmount();
+        $view_data = array_merge($user_data, $data);
+
+        $this->load->view('index', $view_data);
     }
+
 
 
     // Delete Function for all
@@ -219,10 +226,7 @@ class Hospital extends CI_Controller
                 $this->session->set_flashdata('error', validation_errors());
                 redirect('manage-doctors');
             } else {
-                // Upload image first
                 $uploadedImage = $this->uploadImage();
-
-                // Check if upload failed and if image is required
                 if (!$uploadedImage && $_FILES['image']['name']) {
                     $this->session->set_flashdata('error', 'Image upload failed!');
                     redirect('manage-doctors');
@@ -254,7 +258,6 @@ class Hospital extends CI_Controller
             $this->load->view('manage-doctors', $data);
         }
     }
-
 
     public function editDoctor($id)
     {
@@ -1007,21 +1010,37 @@ class Hospital extends CI_Controller
     }
 
     public function generateBillingPdf($id)
-{
-    require_once APPPATH . 'vendor/autoload.php'; // Load mPDF
-    $this->load->model('Hospital_Model');
+    {
+        require_once APPPATH . 'vendor/autoload.php';
+        $this->load->model('Hospital_Model');
 
-    $data['billing'] = $this->Hospital_Model->getBillById($id);
-    if (empty($data['billing'])) {
-        $this->session->set_flashdata('error', 'Invalid Billing ID.');
-        redirect('billing');
+        $data['billing'] = $this->Hospital_Model->getBillById($id);
+        if (empty($data['billing'])) {
+            $this->session->set_flashdata('error', 'Invalid Billing ID.');
+            redirect('billing');
+        }
+
+        $html = $this->load->view('billing_pdf', $data, true);
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->WriteHTML($html);
+        $mpdf->Output('billing_' . $id . '.pdf', 'D');
     }
-
-    $html = $this->load->view('billing_pdf', $data, true);
-    $mpdf = new \Mpdf\Mpdf();
-    $mpdf->WriteHTML($html);
-    $mpdf->Output('billing_' . $id . '.pdf', 'D');
-}
-
     // End Billing
+
+    // Start Users
+    public function users()
+    {
+        $data['users'] = $this->Hospital_Model->getUsers();
+        $this->load->view('users', $data);
+    }
+    // End Users
+
+    // Start Contacts
+    public function contacts()
+    {
+        $data['contacts'] = $this->Hospital_Model->getContacts();
+        $this->load->view('contacts', $data);
+    }
+    // End Users
+
 }
