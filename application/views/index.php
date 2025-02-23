@@ -27,7 +27,7 @@
                 </div>
               </div>
               <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
-                <div class="mdc-card info-card info-card--success">
+                <div class="mdc-card info-card info-card--primary">
                   <div class="card-inner">
                     <h5 class="card-title pb-4 border-bottom">Admitted Patients</h5>
                     <h5 class="font-weight-light pt-1 pb-2 mb-1"><?= $patients['admitted'];?></h5>
@@ -60,7 +60,7 @@
                 </div>
               </div>
               <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
-                <div class="mdc-card info-card info-card--danger">
+                <div class="mdc-card info-card info-card--warning">
                   <div class="card-inner">
                     <h5 class="card-title pb-4 border-bottom">Pending Appointments</h5>
                     <h5 class="font-weight-light pt-1 pb-2 mb-1"><?= count($pending_appointments); ?></h5>

@@ -23,7 +23,7 @@
           <div class="col-lg-12 p-4">
             <div class="card border-0">
               <div class="card-header border-bottom d-flex justify-content-between">
-                <h3 class="h4 mb-0" style="color: #2a1c5a;">Doctors</h3>
+                <h3 class="h4 mb-0" style="color: #2a1c5a;">Users</h3>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
