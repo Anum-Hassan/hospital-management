@@ -1,14 +1,14 @@
 <?php $this->load->view('inc/users_top'); ?>
 
 <body>
-  
- <!-- Topbar Start -->
- <?php $this->load->view('inc/users_topbar'); ?>
- <!-- Topbar end-->
-    
- <!-- Navbar Start -->
- <?php $this->load->view('inc/users_navbar'); ?>
- <!-- Navbar End -->
+
+    <!-- Topbar Start -->
+    <?php $this->load->view('inc/users_topbar'); ?>
+    <!-- Topbar end-->
+
+    <!-- Navbar Start -->
+    <?php $this->load->view('inc/users_navbar'); ?>
+    <!-- Navbar End -->
 
 
 
@@ -70,30 +70,37 @@
                     <div class="bg-light rounded p-5">
                         <p class="d-inline-block border rounded-pill py-1 px-4">Contact Us</p>
                         <h1 class="mb-4">Have Any Query? Please Contact Us!</h1>
-                        <p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://htmlcodex.com/contact-form">Download Now</a>.</p>
-                        <form>
+                        <?php if ($this->session->flashdata('success')) : ?>
+    <div class="alert alert-success"><?= $this->session->flashdata('success'); ?></div>
+<?php endif; ?>
+
+<?php if ($this->session->flashdata('error')) : ?>
+    <div class="alert alert-danger"><?= $this->session->flashdata('error'); ?></div>
+<?php endif; ?>
+
+                        <form action="<?= base_url('Users/submit_form') ?>" method="post">
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                        <input type="text" class="form-control" name="name" placeholder="Your Name" required>
                                         <label for="name">Your Name</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                        <input type="email" class="form-control" name="email" placeholder="Your Email" required>
                                         <label for="email">Your Email</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                        <input type="text" class="form-control" name="subject" placeholder="Subject" required>
                                         <label for="subject">Subject</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 100px"></textarea>
+                                        <textarea class="form-control" name="message" placeholder="Leave a message here" style="height: 100px" required></textarea>
                                         <label for="message">Message</label>
                                     </div>
                                 </div>
@@ -106,10 +113,8 @@
                 </div>
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                     <div class="h-100" style="min-height: 400px;">
-                        <iframe class="rounded w-100 h-100"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd"
-                        frameborder="0" allowfullscreen="" aria-hidden="false"
-                        tabindex="0"></iframe>
+                      <iframe class="rounded w-100 h-100" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3352.7032880383827!2d73.84517047450868!3d32.826625873642904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391fa201c137272b%3A0x7c16134721a6924e!2sMedicare%20Hospital!5e0!3m2!1sen!2sus!4v1740461616643!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>"
+                           
                     </div>
                 </div>
             </div>
@@ -118,11 +123,11 @@
     <!-- Contact End -->
 
 
-  <!-- Footer Start -->
-<?php $this->load->view('inc/users_footer'); ?>
-<!-- Footer end -->
-  
-<?php $this->load->view('inc/users_bottom'); ?>
+    <!-- Footer Start -->
+    <?php $this->load->view('inc/users_footer'); ?>
+    <!-- Footer end -->
+
+    <?php $this->load->view('inc/users_bottom'); ?>
 </body>
 
 </html>

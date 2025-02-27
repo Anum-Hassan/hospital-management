@@ -117,7 +117,7 @@
                         <div class="mdc-layout-grid__inner">
                           <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
                             <div class="mdc-text-field w-100">
-                              <input type="text" name="username" class="mdc-text-field__input" value="<?= set_value('username'); ?>" required>
+                              <input type="text" name="name" class="mdc-text-field__input" value="<?= set_value('name'); ?>" required>
                               <div class="mdc-line-ripple"></div>
                               <label class="mdc-floating-label">Username</label>
                             </div>

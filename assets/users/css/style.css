@@ -517,3 +517,6 @@
 .footer .copyright a:hover {
     color: var(--primary);
 }
+.header {
+    background:  #1E40AF !important; /* ڈارک بلیو بیک گراؤنڈ */
+}
