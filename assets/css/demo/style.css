@@ -22898,7 +22898,7 @@ address p {
 
 .mdc-drawer .mdc-drawer__header .brand-logo {
   display: block;
-  padding: 28px 0;
+  padding: 28px 0 16px;
 }
 
 .mdc-drawer .mdc-drawer__content .user-info {

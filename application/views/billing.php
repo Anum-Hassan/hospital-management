@@ -25,7 +25,7 @@
               <div class="card-header border-bottom d-flex justify-content-between">
                 <h3 class="h4 mb-0" style="color: #2a1c5a;">Billing</h3>
                 <a href="<?php echo base_url('manage-billing'); ?>" class="btn btn-primary btn-sm">
-                  <i class="bi bi-plus-lg"></i> Add New Record
+                  <i class="bi bi-plus-lg"></i> Add New
                 </a>
               </div>
               <div class="card-body">
@@ -66,11 +66,11 @@
                             </td>
 
                             <td>
-                              <a href="<?php echo base_url('manage-billing/' . $bill->id); ?>" class="btn btn-sm btn-outline-primary">
-                                <span class="fa-regular fa-pen-to-square"></span>
-                              </a>
                               <a href="<?php echo base_url('generateBillingPdf/' . $bill->id); ?>" class="btn btn-sm btn-outline-success">
                                 <i class="fa-solid fa-file-pdf"></i>
+                              </a>
+                              <a href="<?php echo base_url('manage-billing/' . $bill->id); ?>" class="btn btn-sm btn-outline-primary">
+                                <span class="fa-regular fa-pen-to-square"></span>
                               </a>
                               <a href="<?php echo base_url('Hospital/deleteRecord/billing/' . $bill->id); ?>"
                                 class="btn btn-sm btn-outline-danger"

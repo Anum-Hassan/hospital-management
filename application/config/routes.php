@@ -84,12 +84,6 @@ $route['generateBillingPdf/(:num)'] = 'Hospital/generateBillingPdf/$1';
 
 $route['manage-medical-history/(:num)'] = 'Hospital/managePatientHistory/$1';
 
-// $route['doctor/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
-// $route['staff/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
-// $route['patient/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
-// $route['department/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
-// $route['appointment/delete/(:any)/(:num)'] = 'hospital/deleteRecord/$1/$2';
-
 $route['manage-doctors/(:num)'] = 'Hospital/editDoctor/$1';
 $route['manage-staff/(:num)'] = 'Hospital/editStaff/$1';
 $route['manage-patients/(:num)'] = 'Hospital/editPatient/$1';
