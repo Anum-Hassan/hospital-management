@@ -173,8 +173,6 @@ class Hospital extends CI_Controller
         $current_status = $this->Hospital_Model->get_current_status($table, $id);
         $new_status = $current_status == 1 ? 0 : 1;
         $this->Hospital_Model->update_status($table, $id, $new_status);
-
-        // Redirect dynamically based on the table name
         $redirect_url = $table == 'doctors' ? 'doctors' : ($table == 'departments' ? 'departments' : 'dashboard');
         redirect($redirect_url);
     }
@@ -183,7 +181,6 @@ class Hospital extends CI_Controller
     //Start Doctor Functions
     public function doctors()
     {
-        // $this->is_logged_in();
         $data['doctor_details'] = $this->Hospital_Model->getDoctors();
         $this->load->view('doctors', $data);
     }
@@ -219,7 +216,11 @@ class Hospital extends CI_Controller
             $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
             $this->form_validation->set_rules('qualification', 'Qualification', 'trim|required');
             $this->form_validation->set_rules('department_id', 'Department', 'trim|required');
+<<<<<<< HEAD
             $this->form_validation->set_rules('experience', 'Experience', 'trim|required|numeric');
+=======
+            $this->form_validation->set_rules('experience', 'Experience', 'trim|required|numeric'); 
+>>>>>>> d09931e5bdfa48045db87390bc1d9f523505c684
             $this->form_validation->set_rules('address', 'Address', 'trim|required');
 
             if ($this->form_validation->run() == FALSE) {
@@ -1041,6 +1042,6 @@ class Hospital extends CI_Controller
         $data['contacts'] = $this->Hospital_Model->getContacts();
         $this->load->view('contacts', $data);
     }
-    // End Users
-
+    // End Contacts
+    
 }
